@@ -365,9 +365,13 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-10">
       <div class="hero-card text-center mb-4">
-        <h3 class="mb-3 section-title">Adote um pet</h3>
+        <h3 class="mb-3 section-title">Adote seu AUmigão</h3>
+        <p class="text-center small-note">Preencha os dados para acessar sua conta no sistema de adoção.<br> Se ainda não possui uma conta, CADASTRE-SE.</p>
         <div class="d-grid gap-2 col-6 mx-auto">
-          <a href="cadastroUsuario.php" class="btn btn-primary btn-lg btn-primary-custom">Cadastro de usuário</a>
+          <a href="login.php" class="btn btn-primary btn-lg btn-primary-custom">Login</a>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto" style="padding-top: 20px;">
+          <a href="cadastroUsuario.php" class="btn btn-primary btn-lg btn-primary-custom">Cadastrar</a>
         </div>
       </div>
 
