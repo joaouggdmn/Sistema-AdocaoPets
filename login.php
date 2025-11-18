@@ -40,7 +40,7 @@ session_start();
 
           <div class="col-md-12">
             <label class="form-label">Senha</label>
-            <input type="password" name="senha" class="form-control" placeholder="Crie uma senha" required>
+            <input type="password" name="senha" class="form-control" placeholder="Digite sua senha" required>
           </div>
 
           <div class="col-12 d-grid mt-2">

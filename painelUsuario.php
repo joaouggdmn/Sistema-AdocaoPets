@@ -56,7 +56,6 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  animation: cardEntrance 0.8s ease-out;
 }
 
 @keyframes cardEntrance {
@@ -249,6 +248,72 @@ h3 {
         </div>";
     }
     $stmt->close();
+    ?>
+  </div>
+
+  <!-- Seção de Animais Disponíveis para Adoção (de outros usuários) -->
+  <div class="card p-4 mt-4">
+    <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
+      🏠 Animais Disponíveis para Adoção
+    </h4>
+    
+    <p class="text-muted text-center mb-4">Veja todos os pets cadastrados por outros usuários que estão procurando um lar! ❤️</p>
+
+    <hr class="my-4">
+    
+    <!-- Lista de animais cadastrados por OUTROS usuários -->
+    <?php
+    // Busca animais de outros usuários que estão disponíveis para adoção
+    $sql_outros = "SELECT a.*, u.nome_usuario 
+                   FROM animais a 
+                   INNER JOIN usuarios u ON a.usuario_id = u.id_usuario 
+                   WHERE a.usuario_id != ? AND a.status_adocao = 'Disponível'
+                   ORDER BY a.id_animal DESC";
+    $stmt_outros = $conn->prepare($sql_outros);
+    $stmt_outros->bind_param("i", $id_usuario_sessao);
+    $stmt_outros->execute();
+    $result_outros = $stmt_outros->get_result();
+    
+    if($result_outros->num_rows > 0){
+        echo "<div class='row g-4'>";
+        while($animal = $result_outros->fetch_assoc()){
+            $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+            
+            echo "
+            <div class='col-md-6 col-lg-4'>
+              <div class='card h-100' style='border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: all 0.3s ease;'>
+                <img src='{$foto}' class='card-img-top' alt='{$animal['nome_animal']}' style='height: 200px; object-fit: cover;'>
+                <span class='badge bg-success position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>Disponível</span>
+                <div class='card-body'>
+                  <h5 class='card-title' style='color: var(--pet-primary); font-weight: 800;'>{$animal['nome_animal']} 🐾</h5>
+                  <p class='card-text mb-2'>
+                    <strong>{$animal['tipo_animal']}</strong> • {$animal['raca_animal']}<br>
+                    <small class='text-muted'>
+                      {$animal['sexo_animal']} • {$animal['idade_animal']}
+                    </small>
+                  </p>
+                  <p class='card-text' style='font-size: 0.9rem;'>{$animal['descricao_animal']}</p>
+                  <div class='mt-3 p-2' style='background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(68, 168, 160, 0.1) 100%); border-radius: 10px;'>
+                    <small><strong>📞 Cadastrado por:</strong> {$animal['nome_usuario']}</small>
+                  </div>
+                  <div class='d-grid mt-3'>
+                    <button class='btn btn-primary' style='background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%); border: none; font-weight: 700; border-radius: 12px; box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);'>
+                      💕 Tenho Interesse!
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>";
+        }
+        echo "</div>";
+    } else {
+        echo "
+        <div class='alert text-center' style='background: linear-gradient(135deg, #a78bfa 0%, #9370db 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
+          <h5 style='color: white; font-weight: 700;'>🔍 Nenhum animal disponível no momento</h5>
+          <p class='mb-0'>Seja o primeiro a cadastrar um pet para adoção!</p>
+        </div>";
+    }
+    $stmt_outros->close();
     ?>
   </div>
 </div>
