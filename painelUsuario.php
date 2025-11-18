@@ -1,5 +1,7 @@
 <?php
 session_start();
+require 'config.php';
+
 if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     header("Location: login.php");
     exit;
@@ -80,6 +82,23 @@ body {
   color: var(--pet-dark);
 }
 
+.btn-light {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: var(--pet-dark);
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+  color: var(--pet-dark);
+}
+
 h3 {
   color: transparent;
   background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
@@ -88,20 +107,152 @@ h3 {
   font-weight: 800;
   font-family: 'Fredoka', sans-serif;
 }
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
+}
+
+.alert {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+  color: white;
+  border-left: 5px solid #3ba89e;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff558a 100%);
+  color: white;
+  border-left: 5px solid #ff4080;
+}
+
+.btn-sm {
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff558a 100%);
+  border: none;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #ff558a 0%, #ff4080 100%);
+  transform: translateY(-2px);
+}
 </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg mb-4">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#">Painel do Usuário</a>
-    <a href="logout.php" class="btn btn-warning">Sair</a>
+    <a class="navbar-brand fw-bold" href="painelUsuario.php">🐾 Painel do Usuário</a>
+    <div class="d-flex gap-2">
+      <a href="cadastroAnimal.php" class="btn btn-light">
+        <span style="font-size: 1.2rem;">🐕</span> Cadastrar Animal
+      </a>
+      <a href="logout.php" class="btn btn-warning">Sair</a>
+    </div>
   </div>
 </nav>
 <div class="container">
-  <div class="card p-4">
+  <div class="card p-4 mb-4">
     <h3>Olá, <?= $_SESSION['nome']; ?> 👋</h3>
     <p class="text-muted">Você está logado como <b>Usuário</b>.</p>
   </div>
+
+  <?php
+  // Exibe mensagem de sucesso se houver
+  if(isset($_SESSION['sucesso'])){
+      echo "<div class='alert alert-success alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #4ecdc4;'>
+              <strong>{$_SESSION['sucesso']}</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>";
+      unset($_SESSION['sucesso']);
+  }
+  
+  // Exibe mensagem de erro se houver
+  if(isset($_SESSION['erro'])){
+      echo "<div class='alert alert-danger alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #ff6b9d;'>
+              <strong>{$_SESSION['erro']}</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>";
+      unset($_SESSION['erro']);
+  }
+  ?>
+
+  <div class="card p-4">
+    <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
+      🐾 Meus Animais Cadastrados
+    </h4>
+    
+    <div class="text-center mb-4">
+      <p class="text-muted">Cadastre animais disponíveis para adoção e ajude a encontrar um lar para eles!</p>
+      <a href="cadastroAnimal.php" class="btn btn-warning btn-lg mt-2">
+        <span style="font-size: 1.3rem;">🐕</span> Cadastrar Novo Animal
+      </a>
+    </div>
+
+    <hr class="my-4">
+    
+    <!-- Lista dos animais cadastrados pelo usuário -->
+    <?php
+    // Pega o id_usuario da sessão (tabela usuarios) para buscar na coluna usuario_id da tabela animais
+    $id_usuario_sessao = $_SESSION['id_usuario'];
+    $sql = "SELECT * FROM animais WHERE usuario_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_usuario_sessao);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if($result->num_rows > 0){
+        echo "<div class='row g-4'>";
+        while($animal = $result->fetch_assoc()){
+            $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+            $status_class = $animal['status_adocao'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
+            
+            echo "
+            <div class='col-md-6 col-lg-4'>
+              <div class='card h-100' style='border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: all 0.3s ease;'>
+                <img src='{$foto}' class='card-img-top' alt='{$animal['nome_animal']}' style='height: 200px; object-fit: cover;'>
+                <span class='badge {$status_class} position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>{$animal['status_adocao']}</span>
+                <div class='card-body'>
+                  <h5 class='card-title' style='color: var(--pet-secondary); font-weight: 800;'>{$animal['nome_animal']} 🐾</h5>
+                  <p class='card-text mb-2'>
+                    <strong>{$animal['tipo_animal']}</strong> • {$animal['raca_animal']}<br>
+                    <small class='text-muted'>
+                      {$animal['sexo_animal']} • {$animal['idade_animal']}
+                    </small>
+                  </p>
+                  <p class='card-text' style='font-size: 0.9rem;'>{$animal['descricao_animal']}</p>
+                  <div class='d-flex gap-2 mt-3'>
+                    <a href='editarAnimal.php?id={$animal['id_animal']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>
+                    <a href='excluirAnimal.php?id={$animal['id_animal']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir este animal?\")'>🗑️ Excluir</a>
+                  </div>
+                </div>
+              </div>
+            </div>";
+        }
+        echo "</div>";
+    } else {
+        echo "
+        <div class='alert text-center' style='background: linear-gradient(135deg, #ffd93d 0%, #ffed4e 100%); border: none; border-radius: 15px; padding: 30px;'>
+          <h5 style='color: var(--pet-dark); font-weight: 700;'>😺 Nenhum animal cadastrado ainda!</h5>
+          <p class='mb-0'>Comece agora a ajudar pets a encontrarem um novo lar!</p>
+        </div>";
+    }
+    $stmt->close();
+    ?>
+  </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

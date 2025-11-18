@@ -357,7 +357,7 @@
 
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid px-4">
-    <a class="navbar-brand fw-bold"><span class="brand-icon">🐾</span>PetShop - Aula de PHP</a>
+    <a class="navbar-brand fw-bold"><span class="brand-icon">🐾</span>PetShop - Adoção</a>
   </div>
 </nav>
 
@@ -374,47 +374,12 @@
           <a href="cadastroUsuario.php" class="btn btn-primary btn-lg btn-primary-custom">Cadastrar</a>
         </div>
       </div>
-
-      <div class="card-pet p-3">
-        <table class="table table-striped table-bordered align-middle mb-0">
-          <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Email</th>
-                <th scope="col">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $sql = "SELECT * FROM usuarios ORDER BY id_usuario DESC";
-              $result = $conn->query($sql);
-              if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()){
-                  echo "<tr>
-                          <td>{$row['id_usuario']}</td>
-                          <td>{$row['nome_usuario']}</td>
-                          <td>{$row['email_usuario']}</td>
-                          <td>
-                            <a href='editar.php?id={$row['id_usuario']}' class='btn btn-sm btn-warning action-btn'>EDITAR</a>
-                            <a href='excluir.php?id={$row['id_usuario']}' class='btn btn-sm btn-danger'>EXCLUIR</a>
-                          </td>
-                        </tr>";
-                }
-              } else {
-                echo "<tr><td colspan='4' class='text-center'>NENHUM USUÁRIO CADASTRADO</td></tr>";
-              }
-            ?>
-          </tbody>
-        </table>
-      </div>
-
     </div>
   </div>
 </main>
 
 <footer>
-  <p class="fw-bold">Aula de PHP com Prof. Lucas Castellan &nbsp;•&nbsp; PetShop Theme</p>
+  <p class="fw-bold">PetShop - Adoção de animais &nbsp;•&nbsp; los goats 2025</p>
 </footer>
 
 </body>
