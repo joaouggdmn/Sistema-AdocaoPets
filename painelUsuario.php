@@ -154,7 +154,10 @@ h3 {
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="painelUsuario.php">🐾 Painel do Usuário</a>
     <div class="d-flex gap-2">
-      <a href="cadastroAnimal.php" class="btn btn-light">
+      <a href="#animais_adocao" class="btn" style="background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%); color: white; font-weight: 700; border-radius: 12px; padding: 10px 20px; box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4); transition: all 0.3s ease; border: none;">
+        <span style="font-size: 1.2rem;">🏠</span> Animais para Adoção
+      </a>
+      <a href="#animais_cadastrados" class="btn btn-light">
         <span style="font-size: 1.2rem;">🐕</span> Cadastrar Animal
       </a>
       <a href="logout.php" class="btn btn-warning">Sair</a>
@@ -187,10 +190,10 @@ h3 {
   }
   ?>
 
-  <div class="card p-4">
+  <div id="animais_cadastrados" class="card p-4">
     <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-      🐾 Meus Animais Cadastrados
-    </h4>
+      🐾 Meus Animais
+  </h4>
     
     <div class="text-center mb-4">
       <p class="text-muted">Cadastre animais disponíveis para adoção e ajude a encontrar um lar para eles!</p>
@@ -252,13 +255,12 @@ h3 {
   </div>
 
   <!-- Seção de Animais Disponíveis para Adoção (de outros usuários) -->
-  <div class="card p-4 mt-4">
+  <div id="animais-adocao" class="card p-4 mt-4" style="scroll-margin-top: 100px;">
     <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
       🏠 Animais Disponíveis para Adoção
     </h4>
     
     <p class="text-muted text-center mb-4">Veja todos os pets cadastrados por outros usuários que estão procurando um lar! ❤️</p>
-
     <hr class="my-4">
     
     <!-- Lista de animais cadastrados por OUTROS usuários -->
@@ -297,9 +299,9 @@ h3 {
                     <small><strong>📞 Cadastrado por:</strong> {$animal['nome_usuario']}</small>
                   </div>
                   <div class='d-grid mt-3'>
-                    <button class='btn btn-primary' style='background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%); border: none; font-weight: 700; border-radius: 12px; box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);'>
-                      💕 Tenho Interesse!
-                    </button>
+                    <a href='adotarAnimal.php?id={$animal['id_animal']}' class='btn btn-danger' onclick=\"return confirm('🐾 Você realmente deseja adotar {$animal['nome_animal']}? ❤️')\">
+                      💕 Adotar {$animal['nome_animal']}!
+                    </a>
                   </div>
                 </div>
               </div>
