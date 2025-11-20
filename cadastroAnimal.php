@@ -379,6 +379,7 @@ if (!isset($_SESSION['logado'])) {
                   </div>";
             unset($_SESSION['sucesso']);
         }
+
         ?>
 
         <!--Formulario de cadastro de animal-->
