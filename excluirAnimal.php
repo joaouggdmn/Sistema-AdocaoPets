@@ -11,20 +11,28 @@ if (!isset($_SESSION['logado'])) {
 // Verifica se o ID foi passado
 if(!isset($_GET['id']) || empty($_GET['id'])){
     $_SESSION['erro'] = "❌ Animal não encontrado!";
-    header("Location: painelUsuario.php");
+    $redirect = ($_SESSION['nivel_usuario'] == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+    header("Location: $redirect");
     exit;
 }
 
 $id_animal = $_GET['id'];
 $id_usuario = $_SESSION['id_usuario'];
+$nivel_usuario = $_SESSION['nivel_usuario'];
 
-// Verifica se o animal pertence ao usuário logado
-$sql_verifica = "SELECT * FROM animais WHERE id_animal = $id_animal AND usuario_id = $id_usuario";
+// Admin pode excluir qualquer animal, usuário normal só os seus
+if($nivel_usuario == 'admin'){
+    $sql_verifica = "SELECT * FROM animais WHERE id_animal = $id_animal";
+} else {
+    $sql_verifica = "SELECT * FROM animais WHERE id_animal = $id_animal AND usuario_id = $id_usuario";
+}
+
 $result = $conn->query($sql_verifica);
 
 if($result->num_rows == 0){
     $_SESSION['erro'] = "❌ Você não tem permissão para excluir este animal!";
-    header("Location: painelUsuario.php");
+    $redirect = ($nivel_usuario == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+    header("Location: $redirect");
     exit;
 }
 
@@ -44,5 +52,6 @@ if($conn->query($sql_excluir) === TRUE){
     $_SESSION['erro'] = "❌ Erro ao excluir: " . $conn->error;
 }
 
-header("Location: painelUsuario.php");
+$redirect = ($_SESSION['nivel_usuario'] == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+header("Location: $redirect");
 ?>

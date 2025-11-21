@@ -8,23 +8,24 @@ if (!isset($_SESSION['logado'])) {
     exit;
 }
 
-// Verifica se o ID foi passado
-if(!isset($_GET['id']) || empty($_GET['id'])){
-    $_SESSION['erro'] = "❌ Animal não encontrado!";
-    header("Location: painelUsuario.php");
-    exit;
-}
-
 $id_animal = $_GET['id'];
 $id_usuario = $_SESSION['id_usuario'];
+$nivel_usuario = $_SESSION['nivel_usuario'];
 
-// Busca o animal para editar (verifica se pertence ao usuário)
-$sql = "SELECT * FROM animais WHERE id_animal = $id_animal AND usuario_id = $id_usuario";
+// Busca o animal para editar
+// Admin pode editar qualquer animal, usuário normal só os seus
+if($nivel_usuario == 'admin'){
+    $sql = "SELECT * FROM animais WHERE id_animal = $id_animal";
+} else {
+    $sql = "SELECT * FROM animais WHERE id_animal = $id_animal AND usuario_id = $id_usuario";
+}
+
 $result = $conn->query($sql);
 
 if($result->num_rows == 0){
     $_SESSION['erro'] = "❌ Você não tem permissão para editar este animal!";
-    header("Location: painelUsuario.php");
+    $redirect = ($nivel_usuario == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+    header("Location: $redirect");
     exit;
 }
 
@@ -66,7 +67,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     if($conn->query($sql_update) === TRUE){
         $_SESSION['sucesso'] = "✅ Animal atualizado com sucesso!";
-        header("Location: painelUsuario.php");
+        $redirect = ($_SESSION['nivel_usuario'] == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+        header("Location: $redirect");
         exit;
     } else {
         $_SESSION['erro'] = "❌ Erro ao atualizar: " . $conn->error;
@@ -202,7 +204,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid px-4">
-    <a href="painelUsuario.php" class="navbar-brand fw-bold"><span style="font-size:1.8rem;">🐾</span> Editar Animal</a>
+    <a href="<?= $_SESSION['nivel_usuario'] == 'admin' ? 'painelAdmin.php' : 'painelUsuario.php' ?>" class="navbar-brand fw-bold"><span style="font-size:1.8rem;">🐾</span> Editar Animal</a>
   </div>
 </nav>
 
@@ -278,7 +280,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
           </div>
 
           <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-            <a href="painelUsuario.php" class="btn btn-secondary">
+            <a href="<?= $_SESSION['nivel_usuario'] == 'admin' ? 'painelAdmin.php' : 'painelUsuario.php' ?>" class="btn btn-secondary">
               ← Cancelar
             </a>
             <button type="submit" class="btn btn-custom">
