@@ -17,31 +17,22 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pet-primary: #ff6b9d;
-  --pet-secondary: #4ecdc4;
-  --pet-accent: #ffd93d;
-  --pet-purple: #a78bfa;
+  --pet-primary: #FF6B6B;
+  --pet-secondary: #4ECDC4;
+  --pet-accent: #FFE66D;
   --pet-dark: #2d3748;
 }
 
 body { 
   font-family: 'Nunito', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: linear-gradient(135deg, #e8f5f4 0%, #d4f1ee 100%);
   min-height: 100vh;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .navbar { 
-  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
-  box-shadow: 0 8px 32px rgba(78, 205, 196, 0.4);
-  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
+  box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbar a { 
@@ -51,33 +42,28 @@ body {
 }
 
 .card { 
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-}
-
-@keyframes cardEntrance {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  background: white;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-warning { 
-  background: linear-gradient(135deg, #ffd93d 0%, #ffed4e 100%);
+  background: linear-gradient(135deg, #FFE66D 0%, #ffd93d 100%);
   border: none;
   color: var(--pet-dark);
   font-weight: 700;
   border-radius: 12px;
   padding: 10px 24px;
-  box-shadow: 0 6px 20px rgba(255, 217, 61, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 230, 109, 0.3);
   transition: all 0.3s ease;
 }
 
 .btn-warning:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 217, 61, 0.5);
-  background: linear-gradient(135deg, #ffc400 0%, #ffd93d 100%);
+  box-shadow: 0 6px 16px rgba(255, 230, 109, 0.4);
+  background: linear-gradient(135deg, #ffd93d 0%, #ffc400 100%);
   color: var(--pet-dark);
 }
 
@@ -99,10 +85,7 @@ body {
 }
 
 h3 {
-  color: transparent;
-  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: var(--pet-secondary);
   font-weight: 800;
   font-family: 'Fredoka', sans-serif;
 }
@@ -119,15 +102,15 @@ h3 {
 }
 
 .alert-success {
-  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+  background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
   color: white;
   border-left: 5px solid #3ba89e;
 }
 
 .alert-danger {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff558a 100%);
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
   color: white;
-  border-left: 5px solid #ff4080;
+  border-left: 5px solid #ff3838;
 }
 
 .btn-sm {
@@ -139,38 +122,70 @@ h3 {
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff558a 100%);
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
   border: none;
 }
 
 .btn-danger:hover {
-  background: linear-gradient(135deg, #ff558a 0%, #ff4080 100%);
+  background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
   transform: translateY(-2px);
 }
 </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg mb-4">
+<body style="padding-top: 70px;">
+<nav class="navbar fixed-top mb-4">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="painelUsuario.php">🐾 Painel do Usuário</a>
     <div class="d-flex gap-2">
-      <a href="#animais_adocao" class="btn" style="background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%); color: white; font-weight: 700; border-radius: 12px; padding: 10px 20px; box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4); transition: all 0.3s ease; border: none;">
+      <a href="#animais-adocao" class="btn d-none d-md-inline-block" style="background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%); color: white; font-weight: 700; border-radius: 12px; padding: 10px 20px; box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4); transition: all 0.3s ease; border: none;">
         <span style="font-size: 1.2rem;">🏠</span> Animais para Adoção
       </a>
-      <a href="#animais_cadastrados" class="btn btn-light">
+      <a href="#animais_cadastrados" class="btn btn-light d-none d-md-inline-block">
         <span style="font-size: 1.2rem;">🐕</span> Cadastrar Animal
       </a>
-      <a href="logout.php" class="btn btn-warning">Sair</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="border: 2px solid white; color: white;">
+        <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header" style="background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%); color: white;">
+      <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel" style="font-family: 'Fredoka', sans-serif;">🐾 Painel do usuário</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="mb-4 p-3" style="background: linear-gradient(135deg, #e8f5f4 0%, #d4f1ee 100%); border-radius: 12px;">
+        <h6 class="fw-bold" style="color: var(--pet-secondary);">👤 <?= $_SESSION['nome']; ?></h6>
+        <p class="mb-0 small text-muted">Usuário</p>
+      </div>
+      
+      <ul class="navbar-nav flex-grow-1">
+        <li><hr class="dropdown-divider"></li>
+        <li class="nav-item">
+          <a class="nav-link" href="editarUsuario.php" style="color: var(--pet-secondary);">
+            ✏️ Editar Perfil
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="excluirUsuario.php" style="color: #FF6B6B;">
+            🗑️ Excluir Conta
+          </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold" href="logout.php" style="color: #FFE66D;">
+            🚪 Sair
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
-<div class="container">
-  <div class="card p-4 mb-4">
-    <h3>Olá, <?= $_SESSION['nome']; ?> 👋</h3>
-    <p class="text-muted">Você está logado como <b>Usuário</b>.</p>
-  </div>
 
-  <?php
+
+<div class="container">
+    <?php
   // Exibe mensagem de sucesso se houver
   if(isset($_SESSION['sucesso'])){
       echo "<div class='alert alert-success alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #4ecdc4;'>
@@ -190,7 +205,7 @@ h3 {
   }
   ?>
 
-  <div id="animais_cadastrados" class="card p-4">
+  <div id="animais_cadastrados" class="card p-4" style="margin-top: 40px;">
     <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
       🐾 Meus Animais
   </h4>

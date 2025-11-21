@@ -17,31 +17,22 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pet-primary: #ff6b9d;
-  --pet-secondary: #4ecdc4;
-  --pet-accent: #ffd93d;
-  --pet-purple: #a78bfa;
+  --pet-primary: #FF6B6B;
+  --pet-secondary: #4ECDC4;
+  --pet-accent: #FFE66D;
   --pet-dark: #2d3748;
 }
 
 body { 
   font-family: 'Nunito', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%);
   min-height: 100vh;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .navbar { 
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
-  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.4);
-  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbar a { 
@@ -51,17 +42,11 @@ body {
 }
 
 .card { 
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  animation: cardEntrance 0.8s ease-out;
-}
-
-@keyframes cardEntrance {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  background: white;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-light { 
@@ -96,10 +81,7 @@ body {
 }
 
 h3 {
-  color: transparent;
-  background: linear-gradient(135deg, #ff6b9d 0%, #a78bfa 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: var(--pet-primary);
   font-weight: 800;
   font-family: 'Fredoka', sans-serif;
 }
@@ -125,19 +107,59 @@ h3 {
   transition: all 0.3s ease;
 }
 
-.table tbody tr:hover {
-  background: linear-gradient(90deg, rgba(255, 107, 157, 0.08) 0%, rgba(167, 139, 250, 0.08) 100%);
-  transform: scale(1.01);
+.table tbody tr:hover{ 
+  background: rgba(78, 205, 196, 0.08);
+  transform: translateX(2px);
 }
 </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg mb-4">
+<body style="padding-top: 70px;">
+<nav class="navbar fixed-top mb-4">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#">Painel Admin</a>
-    <div class="d-flex">
-      <a href="cadastro.php" class="btn btn-light me-2">Cadastrar Usuário</a>
-      <a href="logout.php" class="btn btn-dark">Sair</a>
+    <a class="navbar-brand fw-bold" href="painelAdmin.php">👑 Painel Admin</a>
+    <div class="d-flex gap-2">
+      <a href="cadastroUsuario.php" class="btn btn-light me-2 d-none d-md-inline-block">Cadastrar Usuário</a>
+      <a href="logout.php" class="btn btn-dark d-none d-md-inline-block">Sair</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="border: 2px solid white; color: white;">
+        <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header" style="background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%); color: white;">
+      <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel" style="font-family: 'Fredoka', sans-serif;">👑 Menu Admin</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="mb-4 p-3" style="background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%); border-radius: 12px;">
+        <h6 class="fw-bold" style="color: var(--pet-primary);">👑 <?= $_SESSION['nome']; ?></h6>
+        <p class="mb-0 small text-muted">Administrador</p>
+      </div>
+      
+      <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+          <a class="nav-link fw-bold" href="painelAdmin.php" style="color: var(--pet-primary); font-size: 1.05rem;">
+            🏠 Início
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="cadastroUsuario.php" style="color: var(--pet-dark);">
+            ➕ Cadastrar Usuário
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="painelAdmin.php" style="color: var(--pet-dark);">
+            📋 Gerenciar Usuários
+          </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold" href="logout.php" style="color: #2d3748;">
+            🚪 Sair
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
@@ -146,6 +168,26 @@ h3 {
     <h3>Bem-vindo, <?= $_SESSION['nome']; ?> 👑</h3>
     <p class="text-muted">Você está logado como <b>Administrador</b>.</p>
   </div>
+
+  <?php
+  // Exibe mensagem de sucesso se houver
+  if(isset($_SESSION['sucesso'])){
+      echo "<div class='alert alert-success alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #4ecdc4;'>
+              <strong>{$_SESSION['sucesso']}</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>";
+      unset($_SESSION['sucesso']);
+  }
+  
+  // Exibe mensagem de erro se houver
+  if(isset($_SESSION['erro'])){
+      echo "<div class='alert alert-danger alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #FF6B6B;'>
+              <strong>{$_SESSION['erro']}</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>";
+      unset($_SESSION['erro']);
+  }
+  ?>
 
   <div class="card p-4">
     <h4 class="mb-4" style="color: var(--pet-dark); font-weight: 700;">📋 Gerenciar Usuários</h4>
@@ -169,8 +211,8 @@ h3 {
                       <td>{$row['nome_usuario']}</td>
                       <td>{$row['email_usuario']}</td>
                       <td>
-                        <a href='editar.php?id={$row['id_usuario']}' class='btn btn-sm btn-warning'>EDITAR</a>
-                        <a href='excluir.php?id={$row['id_usuario']}' class='btn btn-sm btn-danger'>EXCLUIR</a>
+                        <a href='editarUsuarioADMIN.php?id={$row['id_usuario']}' class='btn btn-sm btn-warning'>EDITAR</a>
+                        <a href='excluirUsuarioADMIN.php?id={$row['id_usuario']}' class='btn btn-sm btn-danger'>EXCLUIR</a>
                       </td>
                     </tr>";
             }

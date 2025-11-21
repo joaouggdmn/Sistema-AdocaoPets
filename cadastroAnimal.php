@@ -18,87 +18,29 @@ if (!isset($_SESSION['logado'])) {
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --pet-primary: #ff6b9d;
-      --pet-secondary: #4ecdc4;
-      --pet-accent: #ffd93d;
-      --pet-purple: #a78bfa;
-      --pet-orange: #ff9966;
+      --pet-primary: #FF6B6B;
+      --pet-secondary: #4ECDC4;
+      --pet-accent: #FFE66D;
       --pet-dark: #2d3748;
-      --card-bg: #fffbf5;
     }
     
     html,body{height:100%; margin:0; padding:0;}
     
     body {
       font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
+      background: linear-gradient(135deg, #e8f5f4 0%, #d4f1ee 100%);
       color: var(--pet-dark);
       padding-bottom:40px;
-      position: relative;
-      overflow-x: hidden;
-    }
-    
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    /* Decorações de fundo */
-    body::before {
-      content: '🐕';
-      position: fixed;
-      top: 10%;
-      left: 5%;
-      font-size: 60px;
-      opacity: 0.1;
-      animation: float 6s ease-in-out infinite;
-      z-index: 0;
-    }
-    
-    body::after {
-      content: '🐱';
-      position: fixed;
-      bottom: 15%;
-      right: 8%;
-      font-size: 80px;
-      opacity: 0.1;
-      animation: float 8s ease-in-out infinite reverse;
-      z-index: 0;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(10deg); }
+      min-height: 100vh;
     }
     
     /* Navbar */
     .navbar {
-      background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
-      box-shadow: 0 8px 32px rgba(78, 205, 196, 0.4);
-      backdrop-filter: blur(10px);
-      border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
+      box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
       position: relative;
-      overflow: hidden;
       z-index: 1000;
-    }
-    
-    .navbar::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 40%);
-      animation: navShine 10s linear infinite;
-    }
-    
-    @keyframes navShine {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
     
     .navbar .navbar-brand{ 
@@ -106,26 +48,17 @@ if (!isset($_SESSION['logado'])) {
       font-family: 'Fredoka', 'Nunito', sans-serif;
       font-size: 1.5rem;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
       transition: transform 0.3s ease;
     }
     
     .navbar .navbar-brand:hover {
-      transform: scale(1.05) translateY(-2px);
+      transform: translateY(-2px);
     }
     
     .brand-icon{ 
       font-size:1.8rem; 
       margin-right:8px;
       display: inline-block;
-      animation: pawBounce 2s ease-in-out infinite;
-    }
-    
-    @keyframes pawBounce {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      25% { transform: rotate(-10deg) scale(1.1); }
-      75% { transform: rotate(10deg) scale(1.1); }
     }
     
     main {
@@ -133,61 +66,27 @@ if (!isset($_SESSION['logado'])) {
       z-index: 1;
     }
     
-    /* Card com efeito glassmorphism */
+    /* Card limpo */
     .card-pet{
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 30px;
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.5) inset,
-        0 8px 16px rgba(78, 205, 196, 0.2);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
       padding: 40px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
       position: relative;
-      overflow: hidden;
-      animation: cardEntrance 0.8s ease-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
-    @keyframes cardEntrance {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    .card-pet:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
     }
     
-    /* Decoração do card */
-    .card-pet::before {
-      content: '🐾';
-      position: absolute;
-      top: -20px;
-      right: -20px;
-      font-size: 120px;
-      opacity: 0.05;
-      transform: rotate(15deg);
-    }
-    
-    /* Título com efeito gradiente */
+    /* Título limpo */
     h3.section-title{ 
-      color: transparent;
-      background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 50%, #3ba89e 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
+      color: var(--pet-secondary);
       font-weight: 800;
       font-family: 'Fredoka', 'Nunito', sans-serif;
       font-size: 2.2rem;
-      text-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
-      animation: titleGlow 3s ease-in-out infinite;
-      position: relative;
-    }
-    
-    @keyframes titleGlow {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.2); }
     }
     
     .small-note{ 
@@ -202,34 +101,22 @@ if (!isset($_SESSION['logado'])) {
       font-weight: 700;
       font-size: 0.95rem;
       margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .form-label::before {
-      content: '🐾';
-      font-size: 0.9rem;
     }
     
     /* Inputs modernos */
     .form-control, .form-select {
       border: 2px solid #e2e8f0;
-      border-radius: 15px;
+      border-radius: 12px;
       padding: 14px 18px;
       font-size: 1rem;
       transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      background: white;
     }
     
     .form-control:focus, .form-select:focus{ 
-      box-shadow: 
-        0 0 0 4px rgba(78, 205, 196, 0.15),
-        0 8px 20px rgba(78, 205, 196, 0.2);
+      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
       border-color: var(--pet-secondary);
-      transform: translateY(-2px);
-      background: white;
+      outline: none;
     }
     
     .form-control::placeholder {
@@ -241,82 +128,54 @@ if (!isset($_SESSION['logado'])) {
       resize: vertical;
     }
     
-    /* Botão com animações e efeitos */
+    /* Botão limpo */
     .btn-custom {
-      background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 50%, #3ba89e 100%);
+      background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
       color: #fff;
       border: none;
-      border-radius: 15px;
+      border-radius: 12px;
       padding: 16px 32px;
       font-weight: 700;
       font-size: 1.1rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 
-        0 10px 30px rgba(78, 205, 196, 0.4),
-        0 0 0 3px rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.5px;
+      box-shadow: 0 6px 16px rgba(78, 205, 196, 0.3);
       transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .btn-custom::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-    
-    .btn-custom:hover::before {
-      width: 300px;
-      height: 300px;
     }
     
     .btn-custom:hover{ 
-      background: linear-gradient(135deg, #3ba89e 0%, #32938b 50%, #2a7f79 100%);
-      transform: translateY(-3px);
-      box-shadow: 
-        0 15px 40px rgba(78, 205, 196, 0.5),
-        0 0 0 4px rgba(255, 255, 255, 0.4);
-    }
-    
-    .btn-custom:active {
-      transform: translateY(-1px);
+      background: linear-gradient(135deg, #44b8b0 0%, #3ba89e 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
     }
     
     .btn-secondary {
-      background: linear-gradient(135deg, #a78bfa 0%, #9370db 100%);
+      background: #6c757d;
       border: none;
-      border-radius: 15px;
+      border-radius: 12px;
       padding: 16px 32px;
       font-weight: 700;
       font-size: 1.1rem;
       color: white;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(167, 139, 250, 0.3);
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
     }
     
     .btn-secondary:hover {
-      background: linear-gradient(135deg, #9370db 0%, #8a5cdb 100%);
+      background: #5a6268;
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(167, 139, 250, 0.4);
+      box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
     }
     
     /* Footer estilizado */
     footer { 
-      background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+      background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
       padding: 20px;
       text-align: center;
       margin-top: 50px;
       color: #fff;
-      box-shadow: 0 -8px 32px rgba(78, 205, 196, 0.3);
-      border-top: 3px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 -4px 12px rgba(78, 205, 196, 0.2);
+      border-top: 2px solid rgba(255, 255, 255, 0.2);
       position: relative;
       z-index: 1;
     }
@@ -336,12 +195,12 @@ if (!isset($_SESSION['logado'])) {
     }
     
     .alert-success {
-      background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+      background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
       color: white;
     }
     
     .alert-danger {
-      background: linear-gradient(135deg, #ff6b9d 0%, #ff558a 100%);
+      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
       color: white;
     }
   </style>
