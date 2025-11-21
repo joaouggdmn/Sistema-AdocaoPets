@@ -221,6 +221,63 @@ h3 {
       </tbody>
     </table>
   </div>
+
+  <div id="animais-adocao" class="card p-4 mt-4" style="scroll-margin-top: 100px;">
+    <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
+      📋 Gerenciar Animais
+    </h4>
+    
+    <hr class="my-4">
+    
+   
+    <?php
+    $sql_animais = "SELECT a.*, u.nome_usuario 
+                    FROM animais a 
+                    INNER JOIN usuarios u ON a.usuario_id = u.id_usuario 
+                    ORDER BY a.id_animal DESC";
+    $result_animais = $conn->query($sql_animais);
+    
+    if($result_animais->num_rows > 0){
+        echo "<div class='row g-4'>";
+        while($animal = $result_animais->fetch_assoc()){
+            $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+            $status_class = $animal['status_adocao'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
+            
+            echo "
+            <div class='col-md-6 col-lg-4'>
+              <div class='card h-100' style='border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: all 0.3s ease;'>
+                <img src='{$foto}' class='card-img-top' alt='{$animal['nome_animal']}' style='height: 200px; object-fit: cover;'>
+                <span class='badge {$status_class} position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>{$animal['status_adocao']}</span>
+                <div class='card-body'>
+                  <h5 class='card-title' style='color: var(--pet-primary); font-weight: 800;'>{$animal['nome_animal']} 🐾</h5>
+                  <p class='card-text mb-2'>
+                    <strong>{$animal['tipo_animal']}</strong> • {$animal['raca_animal']}<br>
+                    <small class='text-muted'>
+                      {$animal['sexo_animal']} • {$animal['idade_animal']}
+                    </small>
+                  </p>
+                  <p class='card-text' style='font-size: 0.9rem;'>{$animal['descricao_animal']}</p>
+                  <div class='mt-3 p-2' style='background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(68, 168, 160, 0.1) 100%); border-radius: 10px;'>
+                    <small><strong>📞 Cadastrado por:</strong> {$animal['nome_usuario']}</small>
+                  </div>
+                  <div class='d-flex gap-2 mt-3'>
+                    <a href='editarAnimal.php?id={$animal['id_animal']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>
+                    <a href='excluirAnimal.php?id={$animal['id_animal']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir {$animal['nome_animal']}?\")'>🗑️ Excluir</a>
+                  </div>
+                </div>
+              </div>
+            </div>";
+        }
+        echo "</div>";
+    } else {
+        echo "
+        <div class='alert text-center' style='background: linear-gradient(135deg, #a78bfa 0%, #9370db 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
+          <h5 style='color: white; font-weight: 700;'>🔍 Nenhum animal cadastrado no sistema</h5>
+          <p class='mb-0'>Aguarde os usuários cadastrarem animais para adoção!</p>
+        </div>";
+    }
+    ?>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
