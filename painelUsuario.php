@@ -163,12 +163,12 @@ h3 {
       <ul class="navbar-nav flex-grow-1">
         <li><hr class="dropdown-divider"></li>
         <li class="nav-item">
-          <a class="nav-link" href="editarUsuario.php" style="color: var(--pet-secondary);">
+          <a class="nav-link" href="editarUsuarioUSER.php" style="color: var(--pet-secondary);">
             ✏️ Editar Perfil
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="excluirUsuario.php" style="color: #FF6B6B;">
+          <a class="nav-link" href="excluirUsuarioUSER.php" style="color: #FF6B6B;">
             🗑️ Excluir Conta
           </a>
         </li>

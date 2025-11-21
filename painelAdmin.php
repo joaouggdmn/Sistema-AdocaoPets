@@ -118,8 +118,6 @@ h3 {
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="painelAdmin.php">👑 Painel Admin</a>
     <div class="d-flex gap-2">
-      <a href="cadastroUsuario.php" class="btn btn-light me-2 d-none d-md-inline-block">Cadastrar Usuário</a>
-      <a href="logout.php" class="btn btn-dark d-none d-md-inline-block">Sair</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="border: 2px solid white; color: white;">
         <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
       </button>
@@ -144,7 +142,7 @@ h3 {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="cadastroUsuario.php" style="color: var(--pet-dark);">
+          <a class="nav-link" href="cadastroUsuarioADMIN.php" style="color: var(--pet-dark);">
             ➕ Cadastrar Usuário
           </a>
         </li>
@@ -224,5 +222,7 @@ h3 {
     </table>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
