@@ -216,7 +216,7 @@ $count = $result_count->fetch_assoc();
         </div>
 
         <div class="text-center mt-4">
-          <p class="text-danger fw-bold mb-4">⚠️ Tem certeza absoluta que deseja continuar?</p>
+          <p class="text-danger fw-bold mb-4"> Tem certeza absoluta que deseja continuar?</p>
           
           <div class="d-grid gap-2 d-md-flex justify-content-md-center">
             <a href="painelUsuario.php" class="btn btn-secondary btn-lg">
