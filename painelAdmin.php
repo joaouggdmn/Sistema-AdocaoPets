@@ -215,7 +215,10 @@ h3 {
                     </tr>";
             }
           } else {
-            echo "<tr><td colspan='4' class='text-center'>NENHUM USUÁRIO CADASTRADO</td></tr>";
+            echo "
+        <div class='alert text-center' style='background: linear-gradient(135deg, #a78bfa 0%, #9370db 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
+          <h5 style='color: white; font-weight: 700;'>🔍 Nenhum usuário cadastrado no sistema</h5>
+        </div>";
           }
         ?>
       </tbody>
