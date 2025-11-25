@@ -2,7 +2,7 @@
     $servidor ="localhost";
     $usuario = "root";
     $senha ="";
-    $banco ="petshop";
+    $banco ="aucolher";
 
     $conn =  new mysqli($servidor, $usuario, $senha, $banco);
     if($conn->connect_error){
