@@ -23,8 +23,8 @@ if ($result->num_rows > 0) {
     }
     exit;
 } else {
-    $_SESSION['erro'] = "Usuário ou senha inválidos!";
-    header("Location: login.php");
+    $_SESSION['erro'] = "❌ Usuário ou senha incorretos!";
+    header("Location: index.php#login-section");
     exit;
 }
 ?>
