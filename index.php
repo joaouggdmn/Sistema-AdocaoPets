@@ -1,4 +1,5 @@
-<?php require 'config.php'; ?>
+<?php require 'config.php'; 
+session_start();?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -28,17 +29,14 @@
     
     /* Navbar */
     .navbar{
-      background: linear-gradient(135deg, #17c726ff 0%, #7dff55ff 100%);
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
       position: relative;
       z-index: 1000;
     }
       
-    .navbar .navbar-brand{ 
+    .navbar .navbar-brand { 
       align-items: center;
       display: flex;
-      color: #ffef5eff !important;
+      color: #000000ff !important;
       font-family: 'Fredoka', 'Nunito', sans-serif;
       font-size: 1.5rem;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
@@ -61,21 +59,10 @@
       flex: 1;
     }
     
-    /* Hero Card */
+    /* Hero Card - Efeito Glassmorphism */
     .hero-card{
-      background: white;
-      border-radius: 20px;
       padding: 35px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      position: relative;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
-    .hero-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-    }
-    
     /* Título */
     h3.section-title{ 
       color: var(--pet-primary);
@@ -182,6 +169,53 @@
       background: linear-gradient(135deg, #ffd93d 0%, #ffc400 100%);
       color: var(--pet-dark);
     }
+
+    /* banner */
+    .banner{
+      position: relative;
+      background-image: url('https://www3.al.sp.gov.br/repositorio/noticia/N-12-2019/fg245895.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 550px;
+      border-radius: 0px 0px 20px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 0px 0px 20px 20px;
+    }
+    
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .banner h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      color: #ffffffff;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .banner p {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffffff;
+    }
     
     .btn-danger {
       background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
@@ -227,20 +261,57 @@
     <a class="navbar-brand fw-bold"><img src="img/AucolherLogo.png" alt="logo aucolher">Projeto AUcolher!</a>
   </div>
 </nav>
+<div class="banner">
+    <div class="banner-content">
+      <h1>Encontre seu AUmigo para a vida! 🐾</h1>
+      <p>Adote um pet e transforme duas vidas hoje mesmo</p>
+    </div>
+  </div>
+<main class="container mt-5" id="login-section">
+  
+  <div class="row justify-content-center align-items-center">
+    <div class="col-12 col-md-6 col-lg-5">
+      <div class="hero-card mb-4">
+        <h3 class="mb-4 section-title text-center">Bem-vindo de volta!</h3>
+        
+        <form action="validaLogin.php" method="POST">
+          <div class="mb-3">
+            <label class="form-label fw-bold">📧 E-mail</label>
+            <input type="email" name="email" class="form-control" placeholder="seu@email.com" required style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px;">
+          </div>
 
-<main class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-10">
-      <div class="hero-card text-center mb-4">
-        <h3 class="mb-3 section-title">Adote seu AUmigão! 🐾</h3>
-        <p class="text-center small-note">Preencha os dados para acessar sua conta.<br> Se ainda não possui uma conta, CADASTRE-SE.</p>
-        <div class="d-grid gap-2 col-6 mx-auto">
-          <a href="login.php" class="btn btn-primary btn-lg btn-primary-custom">Login</a>
-        </div>
-        <div class="d-grid gap-2 col-6 mx-auto" style="padding-top: 20px;">
-          <a href="cadastroUsuario.php" class="btn btn-primary btn-lg btn-primary-custom">Cadastrar</a>
+          <div class="mb-4">
+            <label class="form-label fw-bold">🔒 Senha</label>
+            <input type="password" name="senha" class="form-control" placeholder="Digite sua senha" required style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px;">
+          </div>
+
+          <?php if(isset($_SESSION['erro'])): ?>
+      <div class="text-danger text-center mt-3" style="margin-bottom: 20px;">
+        <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
+      </div>
+    <?php endif; ?>
+
+          <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary-custom">
+              Entrar
+            </button>
+          </div>
+          
+        </form>
+
+        <hr class="my-4">
+
+        <div class="text-center">
+          <p class="text-muted mb-2">Ainda não tem uma conta?</p>
+          <a href="cadastroUsuario.php" class="text-decoration-none fw-bold" style="color: var(--pet-secondary); font-size: 1.1rem;">
+            ✨ Cadastre-se aqui
+          </a>
         </div>
       </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-5 text-center">
+      <img src="img/dognoCarro.png" alt="Pet" style="border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
     </div>
   </div>
 </main>
