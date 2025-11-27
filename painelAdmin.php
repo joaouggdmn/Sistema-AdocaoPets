@@ -25,20 +25,8 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
 
 body { 
   font-family: 'Nunito', sans-serif;
-  background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%);
+  background: linear-gradient(135deg, #A9CBB7 0%, #6D9F71 100%);
   min-height: 100vh;
-}
-
-.navbar { 
-  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.navbar a { 
-  color: #fff !important;
-  font-family: 'Fredoka', 'Nunito', sans-serif;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
 .card { 
@@ -49,39 +37,13 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-light { 
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  color: var(--pet-dark);
-  font-weight: 700;
-  border-radius: 12px;
-  padding: 10px 24px;
-  transition: all 0.3s ease;
-}
-
-.btn-light:hover {
-  background: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
-}
-
-.btn-dark { 
-  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-  border: none;
-  font-weight: 700;
-  border-radius: 12px;
-  padding: 10px 24px;
-  box-shadow: 0 6px 20px rgba(45, 55, 72, 0.4);
-  transition: all 0.3s ease;
-}
-
-.btn-dark:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 55, 72, 0.5);
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
 h3 {
-  color: var(--pet-primary);
+  color: #d69040ff;
   font-weight: 800;
   font-family: 'Fredoka', sans-serif;
 }
@@ -93,12 +55,12 @@ h3 {
 }
 
 .table thead {
-  background: linear-gradient(135deg, #ffd93d 0%, #ffed4e 100%);
+  background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
 }
 
 .table thead th {
   font-weight: 800;
-  color: var(--pet-dark);
+  color: white;
   padding: 18px 15px;
   border: none;
 }
@@ -108,37 +70,228 @@ h3 {
 }
 
 .table tbody tr:hover{ 
-  background: rgba(78, 205, 196, 0.08);
+  background: rgba(109, 159, 113, 0.08);
   transform: translateX(2px);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
+  border: none;
+  color: white;
+  font-weight: 700;
+}
+
+.btn-warning:hover {
+  background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
+  color: white;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  border: none;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+}
+
+/* Sidebar fixa à esquerda */
+.sidebar-left {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 90px;
+  height: 100vh;
+  background: linear-gradient(180deg, #f7c58dff 0%, #d69040ff 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 15px 0;
+  gap: 12px;
+  z-index: 1000;
+  border-right: 3px solid rgba(255, 255, 255, 0.3);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-left::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar-left::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-left::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.sidebar-left .logo-container {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.sidebar-left .nav-btn {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  position: relative;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.sidebar-left .nav-btn:hover {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border-color: white;
+}
+
+.sidebar-left .nav-btn.gold {
+  background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
+}
+
+.sidebar-left .nav-btn.red {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+}
+
+.sidebar-left .nav-btn .tooltip-text {
+  visibility: hidden;
+  background-color: rgba(45, 55, 72, 0.95);
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px 15px;
+  position: absolute;
+  z-index: 1;
+  left: 80px;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.sidebar-left .nav-btn:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sidebar-left .divider {
+  width: 50%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.4);
+  margin: 5px 0;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .sidebar-left {
+    width: 70px;
+    gap: 10px;
+    padding: 15px 0 10px 0;
+  }
+
+  .sidebar-left .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 5px;
+  }
+
+  .sidebar-left .nav-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.4rem;
+  }
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #6D9F71 0%, #5a8a5e 100%);
+  color: white;
+  border-left: 5px solid #119b4bff;
+  border-radius: 15px;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  color: white;
+  border-left: 5px solid #ff3838;
+  border-radius: 15px;
 }
 </style>
 </head>
-<body style="padding-top: 70px;">
-<nav class="navbar fixed-top mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="painelAdmin.php">👑 Painel Admin</a>
-    <div class="d-flex gap-2">
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="border: 2px solid white; color: white;">
-        <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
-      </button>
+<body style="padding-left: 90px;">
+  <!-- Sidebar fixa à esquerda -->
+  <div class="sidebar-left">
+    <div class="logo-container">
+      👑
     </div>
+
+    <div class="divider"></div>
+
+    <a href="#usuarios" class="nav-btn gold">
+      <span>👥</span>
+      <span class="tooltip-text">Gerenciar Usuários</span>
+    </a>
+    <a href="cadastroUsuarioADMIN.php" class="nav-btn gold">
+      <span>➕</span>
+      <span class="tooltip-text">Cadastrar Usuário</span>
+    </a>
+    <a href="#animais-adocao" class="nav-btn gold">
+      <span>🐾</span>
+      <span class="tooltip-text">Gerenciar Animais</span>
+    </a>
+
+    <div class="divider"></div>
+
+    <a href="logout.php" class="nav-btn red">
+      <span>🚪</span>
+      <span class="tooltip-text">Sair</span>
+    </a>
   </div>
-  
+
+  <!-- Offcanvas para mobile -->
+  <div class="d-md-none">
+    <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" style="position: fixed; top: 20px; right: 20px; z-index: 1100; background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+      <span style="font-size: 1.5rem;">☰</span>
+    </button>
+  </div>
+
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-    <div class="offcanvas-header" style="background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%); color: white;">
+    <div class="offcanvas-header" style="background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%); color: white;">
       <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel" style="font-family: 'Fredoka', sans-serif;">👑 Menu Admin</h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <div class="mb-4 p-3" style="background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%); border-radius: 12px;">
-        <h6 class="fw-bold" style="color: var(--pet-primary);">👑 <?= $_SESSION['nome']; ?></h6>
+      <div class="mb-4 p-3" style="background: linear-gradient(135deg, #FFF3E2 0%, #f7e5c8 100%); border-radius: 12px;">
+        <h6 class="fw-bold" style="color: #d69040ff;">👑 <?= $_SESSION['nome']; ?></h6>
         <p class="mb-0 small text-muted">Administrador</p>
       </div>
       
       <ul class="navbar-nav flex-grow-1">
         <li class="nav-item">
-          <a class="nav-link fw-bold" href="painelAdmin.php" style="color: var(--pet-primary); font-size: 1.05rem;">
-            🏠 Início
+          <a class="nav-link fw-bold" href="#usuarios" style="color: #d69040ff; font-size: 1.05rem;">
+            👥 Gerenciar Usuários
           </a>
         </li>
         <li class="nav-item">
@@ -147,8 +300,8 @@ h3 {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="painelAdmin.php" style="color: var(--pet-dark);">
-            📋 Gerenciar Usuários
+          <a class="nav-link" href="#animais-adocao" style="color: var(--pet-dark);">
+            🐾 Gerenciar Animais
           </a>
         </li>
         <li><hr class="dropdown-divider"></li>
@@ -160,8 +313,8 @@ h3 {
       </ul>
     </div>
   </div>
-</nav>
-<div class="container">
+
+<div class="container" style="margin-top: 40px;">
   <div class="card p-4 mb-4">
     <h3>Bem-vindo, <?= $_SESSION['nome']; ?> 👑</h3>
     <p class="text-muted">Você está logado como <b>Administrador</b>.</p>
@@ -187,7 +340,7 @@ h3 {
   }
   ?>
 
-  <div class="card p-4">
+  <div id="usuarios" class="card p-4" style="scroll-margin-top: 20px;">
     <h4 class="mb-4" style="color: var(--pet-dark); font-weight: 700;">📋 Gerenciar Usuários</h4>
     <table class="table table-striped table-bordered align-middle mb-0">
       <thead>
