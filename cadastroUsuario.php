@@ -211,13 +211,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="col-12 mt-2" style="padding-top: 25px;">
               <div class="row g-2">
-                <div class="col-7">
-                  <button type="submit" class="btn btn-custom w-100">Cadastrar</button>
-                </div>
                 <div class="col-5">
                   <a href="index.php" class="btn-voltar w-100 d-flex align-items-center justify-content-center" style="height: 100%;">
                     ← Voltar
                   </a>
+                </div>
+                <div class="col-7">
+                  <button type="submit" class="btn btn-custom w-100">Cadastrar</button>
                 </div>
               </div>
             </div>

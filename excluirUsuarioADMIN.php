@@ -90,14 +90,14 @@ $count = $result_count->fetch_assoc();
     
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+      background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
       min-height: 100vh;
       padding-bottom: 40px;
     }
     
     .navbar {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
+      box-shadow: 0 4px 12px rgba(214, 144, 64, 0.3);
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
     
@@ -114,6 +114,7 @@ $count = $result_count->fetch_assoc();
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
       padding: 40px;
       border: 3px solid #FF6B6B;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
     h3.section-title{ 
@@ -142,31 +143,32 @@ $count = $result_count->fetch_assoc();
     }
     
     .btn-secondary {
-      background: #6c757d;
-      border: none;
+      background: white;
+      border: 2px solid #6D9F71;
       border-radius: 12px;
       padding: 16px 32px;
       font-weight: 700;
       font-size: 1.1rem;
-      color: white;
+      color: #6D9F71;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+      box-shadow: 0 4px 12px rgba(109, 159, 113, 0.2);
     }
     
     .btn-secondary:hover {
-      background: #5a6268;
-      transform: translateY(-2px);
+      background: #6D9F71;
       color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(109, 159, 113, 0.4);
     }
 
     .alert-warning {
-      background: linear-gradient(135deg, #FFE66D 0%, #ffd93d 100%);
+      background: linear-gradient(135deg, #FFF3E2 0%, #f7e5c8 100%);
       border: none;
       border-radius: 15px;
       padding: 20px;
       color: var(--pet-dark);
       font-weight: 600;
-      border-left: 5px solid #ff9800;
+      border-left: 5px solid #d69040ff;
     }
 
     .info-box {
@@ -201,17 +203,11 @@ $count = $result_count->fetch_assoc();
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid px-4">
-    <a href="painelAdmin.php" class="navbar-brand fw-bold"><span style="font-size:1.8rem;">⚠️</span> Excluir Usuário</a>
-  </div>
-</nav>
-
 <main class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
       <div class="card-pet">
-        <h3 class="mb-3 text-center section-title">⚠️ Excluir Usuário</h3>
+        <h3 class="mb-3 text-center section-title"> Excluir Usuário</h3>
         <p class="text-center text-muted mb-4">Esta ação não pode ser desfeita!</p>
 
         <div class="alert alert-warning">
@@ -241,7 +237,7 @@ $count = $result_count->fetch_assoc();
         </div>
 
         <div class="alert alert-warning mt-4">
-          <h6 class="mb-2"><strong>⚠️ O que será excluído:</strong></h6>
+          <h6 class="mb-2"><strong>O que será excluído:</strong></h6>
           <ul class="mb-0">
             <li>Dados pessoais do usuário (nome, e-mail, senha)</li>
             <li>Todos os <?= $count['total'] ?> animais cadastrados por este usuário</li>
@@ -257,7 +253,7 @@ $count = $result_count->fetch_assoc();
             <a href="painelAdmin.php" class="btn btn-secondary btn-lg">
               ← Cancelar
             </a>
-            <a href="excluir.php?id=<?= $id_usuario ?>&confirmar=sim" class="btn btn-danger btn-lg" onclick="return confirm('⚠️ CONFIRMAÇÃO FINAL!\n\nVocê tem CERTEZA que deseja excluir o usuário <?= $usuario['nome_usuario'] ?>?\n\nEsta ação é IRREVERSÍVEL!')">
+            <a href="excluirUsuarioADMIN.php?id=<?= $id_usuario ?>&confirmar=sim" class="btn btn-danger btn-lg">
               🗑️ Sim, Excluir Usuário
             </a>
           </div>

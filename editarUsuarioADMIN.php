@@ -63,14 +63,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   <style>
     :root{
       --pet-primary: #FF6B6B;
-      --pet-secondary: #4ECDC4;
+      --pet-secondary: #d69040ff;
       --pet-accent: #FFE66D;
       --pet-dark: #2d3748;
     }
     
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%);
+      background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
       min-height: 100vh;
       padding-bottom: 40px;
     }
@@ -107,7 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     h3.section-title{ 
-      color: var(--pet-primary);
+      color: #d69040ff;
       font-weight: 800;
       font-family: 'Fredoka', 'Nunito', sans-serif;
       font-size: 2.2rem;
@@ -130,13 +130,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     .form-control:focus, .form-select:focus{ 
-      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
-      border-color: var(--pet-primary);
+      box-shadow: 0 0 0 3px rgba(214, 144, 64, 0.2);
+      border-color: #d69040ff;
       outline: none;
     }
     
     .btn-custom {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -144,31 +144,51 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       font-weight: 700;
       font-size: 1.1rem;
       transition: all 0.3s ease;
-      box-shadow: 0 6px 16px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 6px 16px rgba(214, 144, 64, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-custom::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-custom:hover::before {
+      width: 300px;
+      height: 300px;
     }
     
     .btn-custom:hover{ 
-      background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+      background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 8px 20px rgba(214, 144, 64, 0.4);
     }
     
     .btn-secondary {
-      background: #6c757d;
-      border: none;
+      background: transparent;
+      border: 2px solid #FF6B6B;
+      color: #FF6B6B;
       border-radius: 12px;
       padding: 16px 32px;
       font-weight: 700;
       font-size: 1.1rem;
-      color: white;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
     }
     
     .btn-secondary:hover {
-      background: #5a6268;
+      background: #FF6B6B;
+      border-color: #FF6B6B;
+      color: white;
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
     }
 
     .alert {
@@ -188,15 +208,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       border-radius: 10px;
       font-size: 0.9rem;
     }
+
+    .bg-danger {
+      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%) !important;
+    }
   </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid px-4">
-    <a href="painelAdmin.php" class="navbar-brand fw-bold"><span style="font-size:1.8rem;">👤</span> Editar Usuário</a>
-  </div>
-</nav>
 
 <main class="container mt-5">
   <div class="row justify-content-center">

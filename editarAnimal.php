@@ -85,30 +85,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --pet-primary: #FF6B6B;
-      --pet-secondary: #4ECDC4;
+      --pet-primary: #6D9F71;
+      --pet-secondary: #d69040ff;
       --pet-accent: #FFE66D;
       --pet-dark: #2d3748;
+      --pet-cream: #FFF3E2;
     }
     
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #e8f5f4 0%, #d4f1ee 100%);
+      background: linear-gradient(135deg, #A9CBB7 0%, #6D9F71 100%);
       min-height: 100vh;
       padding-bottom: 40px;
     }
     
     .navbar {
-      background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
-      box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+      background: #f7c58dff;
+      box-shadow: 0 4px 12px rgba(247, 197, 141, 0.3);
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
     
     .navbar .navbar-brand{ 
-      color:#fff !important; 
+      color: #000000ff !important; 
       font-family: 'Fredoka', 'Nunito', sans-serif;
       font-size: 1.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
     
     .card-pet{
@@ -125,7 +126,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     h3.section-title{ 
-      color: var(--pet-secondary);
+      color: #d69040ff;
       font-weight: 800;
       font-family: 'Fredoka', 'Nunito', sans-serif;
       font-size: 2.2rem;
@@ -147,8 +148,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     .form-control:focus, .form-select:focus{ 
-      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
-      border-color: var(--pet-secondary);
+      box-shadow: 0 0 0 3px rgba(214, 144, 64, 0.2);
+      border-color: #d69040ff;
       outline: none;
     }
     
@@ -157,7 +158,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     .btn-custom {
-      background: linear-gradient(135deg, #4ECDC4 0%, #44b8b0 100%);
+      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -165,31 +166,51 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       font-weight: 700;
       font-size: 1.1rem;
       transition: all 0.3s ease;
-      box-shadow: 0 6px 16px rgba(78, 205, 196, 0.3);
+      box-shadow: 0 6px 16px rgba(214, 144, 64, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-custom::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-custom:hover::before {
+      width: 300px;
+      height: 300px;
     }
     
     .btn-custom:hover{ 
-      background: linear-gradient(135deg, #44b8b0 0%, #3ba89e 100%);
+      background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+      box-shadow: 0 8px 20px rgba(214, 144, 64, 0.4);
     }
     
     .btn-secondary {
-      background: #6c757d;
-      border: none;
+      background: transparent;
+      border: 2px solid #6D9F71;
+      color: #6D9F71;
       border-radius: 12px;
       padding: 16px 32px;
       font-weight: 700;
       font-size: 1.1rem;
-      color: white;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
     }
     
     .btn-secondary:hover {
-      background: #5a6268;
-      transform: translateY(-2px);
+      background: #6D9F71;
+      border-color: #6D9F71;
       color: white;
+      transform: translateY(-2px);
     }
     
     .foto-atual {
@@ -201,12 +222,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid px-4">
-    <a href="<?= $_SESSION['nivel_usuario'] == 'admin' ? 'painelAdmin.php' : 'painelUsuario.php' ?>" class="navbar-brand fw-bold"><span style="font-size:1.8rem;">🐾</span> Editar Animal</a>
-  </div>
-</nav>
 
 <main class="container mt-5">
   <div class="row justify-content-center">

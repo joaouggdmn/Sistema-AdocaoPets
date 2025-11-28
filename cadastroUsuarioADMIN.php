@@ -35,20 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <style>
     :root{
       --pet-primary: #FF6B6B;
-      --pet-secondary: #4ECDC4;
+      --pet-secondary: #d69040ff;
       --pet-accent: #FFE66D;
       --pet-dark: #2d3748;
     }
     
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%);
+      background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
       min-height: 100vh;
       padding-top: 70px;
+      padding-bottom: 40px;
     }
     
     .navbar {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+      background: linear-gradient(135deg, #ff9696ff 0%, #ff5252 100%);
       box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
@@ -57,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       color: #fff !important;
       font-family: 'Fredoka', 'Nunito', sans-serif;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .navbar a:hover {
+      transform: translateY(-2px);
     }
     
     .card {
@@ -71,11 +77,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       transform: translateY(-5px);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
     }
+
+    .card-pet {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      padding: 40px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+    }
+
+    .card-pet:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
     
     h3 {
-      color: var(--pet-primary);
+      color: #d69040ff;
       font-weight: 800;
       font-family: 'Fredoka', sans-serif;
+    }
+
+    h3.section-title {
+      color: #d69040ff;
+      font-weight: 800;
+      font-family: 'Fredoka', 'Nunito', sans-serif;
+      font-size: 2.2rem;
     }
     
     .form-label {
@@ -95,44 +122,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
     .form-control:focus, .form-select:focus {
-      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
-      border-color: var(--pet-primary);
+      box-shadow: 0 0 0 3px rgba(214, 144, 64, 0.2);
+      border-color: #d69040ff;
       outline: none;
     }
     
     .btn-primary {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
       color: #fff;
       border: none;
       border-radius: 12px;
       padding: 16px 32px;
       font-weight: 700;
       font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 6px 16px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 6px 16px rgba(214, 144, 64, 0.3);
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-primary:hover::before {
+      width: 300px;
+      height: 300px;
     }
     
     .btn-primary:hover {
-      background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+      background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 8px 20px rgba(214, 144, 64, 0.4);
     }
     
     .btn-secondary {
-      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-      border: none;
+      background: transparent;
+      border: 2px solid #FF6B6B;
+      color: #FF6B6B;
       border-radius: 12px;
-      padding: 14px 28px;
+      padding: 16px 32px;
       font-weight: 700;
-      box-shadow: 0 4px 12px rgba(45, 55, 72, 0.3);
+      font-size: 1.1rem;
       transition: all 0.3s ease;
     }
     
     .btn-secondary:hover {
+      background: #FF6B6B;
+      border-color: #FF6B6B;
+      color: white;
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(45, 55, 72, 0.4);
     }
     
     .badge {
@@ -147,51 +195,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       border: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+
+    .alert-danger {
+      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+      color: white;
+    }
   </style>
 </head>
 <body>
 
-<nav class="navbar fixed-top mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="painelAdmin.php">👑 Painel Admin</a>
-    <div class="d-flex gap-2">
-      <a href="painelAdmin.php" class="btn btn-light">← Voltar</a>
-    </div>
-  </div>
-</nav>
-
-<main class="container mt-4">
+<main class="container mt-1">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6">
-      <div class="card p-4">
-        <h3 class="mb-3 text-center">👤 Cadastrar Novo Usuário</h3>
-        <p class="text-center text-muted mb-4">Preencha os dados e escolha o nível de acesso do usuário.</p>
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="card-pet">
+        <div class="text-center mb-4">
+          <h3 class="mb-3 section-title">👤 Cadastrar Novo Usuário</h3>
+          <p class="text-muted">Preencha os dados e escolha o nível de acesso do usuário.</p>
+        </div>
 
         <?php if(isset($erro)): ?>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong><?= $erro; ?></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          <div class="alert alert-danger">
+            <?= $erro; ?>
           </div>
         <?php endif; ?>
 
-        <form method="POST" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">📝 Nome Completo</label>
+        <form method="POST" class="row g-3 mt-2 t-2">
+          <div class="col-md-12">
+            <label class="form-label">Nome Completo</label>
             <input type="text" name="nome" class="form-control" placeholder="Nome do usuário" required>
           </div>
 
-          <div class="col-12">
-            <label class="form-label">📧 E-mail</label>
+          <div class="col-md-12">
+            <label class="form-label">E-mail</label>
             <input type="email" name="email" class="form-control" placeholder="email@exemplo.com" required>
           </div>
 
-          <div class="col-12">
-            <label class="form-label">🔒 Senha</label>
+          <div class="col-md-12">
+            <label class="form-label">Senha</label>
             <input type="password" name="senha" class="form-control" placeholder="Crie uma senha segura" required>
           </div>
 
-          <div class="col-12">
-            <label class="form-label">👥 Nível de Acesso</label>
+          <div class="col-md-12">
+            <label class="form-label">Nível de Acesso</label>
             <select name="nivel_usuario" class="form-select" required>
               <option value="" selected disabled>Selecione o nível...</option>
               <option value="usuario">👤 Usuário Padrão</option>
@@ -203,9 +248,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </small>
           </div>
 
-          <div class="col-12 d-flex gap-2 mt-4">
-            <a href="painelAdmin.php" class="btn btn-secondary flex-fill">Cancelar</a>
-            <button type="submit" class="btn btn-primary flex-fill">✅ Cadastrar Usuário</button>
+          <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <a href="painelAdmin.php" class="btn btn-secondary">
+              ← Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary">
+              💾 Cadastrar Usuário
+            </button>
           </div>
         </form>
 
