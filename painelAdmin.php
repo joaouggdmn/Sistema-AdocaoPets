@@ -606,13 +606,13 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
         echo "<div class='row g-4'>";
         while ($animal = $result_animais->fetch_assoc()) {
           $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
-          $status_class = $animal['status_adocao'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
+          $status_class = $animal['status_animal'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
 
           echo "
             <div class='col-md-6 col-lg-4'>
               <div class='card h-100 animal-card'>
                 <img src='{$foto}' class='card-img-top' alt='{$animal['nome_animal']}'>
-                <span class='badge {$status_class} position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>{$animal['status_adocao']}</span>
+                <span class='badge {$status_class} position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>{$animal['status_animal']}</span>
                 <div class='card-body'>
                   <h5 class='card-title'>{$animal['nome_animal']} 🐾</h5>
                   <p class='card-text mb-2'>

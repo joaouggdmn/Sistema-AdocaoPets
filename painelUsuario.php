@@ -475,13 +475,13 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
         echo "<div class='row g-4'>";
         while ($animal = $result->fetch_assoc()) {
           $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
-          $status_class = $animal['status_adocao'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
+          $status_class = $animal['status_animal'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
 
           echo "
             <div class='col-md-6 col-lg-4'>
               <div class='card h-100' style='border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: all 0.3s ease;'>
                 <img src='{$foto}' class='card-img-top' alt='{$animal['nome_animal']}' style='height: 200px; object-fit: cover;'>
-                <span class='badge {$status_class} position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>{$animal['status_adocao']}</span>
+                <span class='badge {$status_class} position-absolute top-0 end-0 m-2' style='font-size: 0.85rem;'>{$animal['status_animal']}</span>
                 <div class='card-body'>
                   <h5 class='card-title' style='color: #d69040ff; font-weight: 800;'>{$animal['nome_animal']} 🐾</h5>
                   <p class='card-text mb-2'>
@@ -493,7 +493,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
                   <p class='card-text' style='font-size: 0.9rem;'>{$animal['descricao_animal']}</p>";
           
           // Só mostra botões de editar/excluir se o animal NÃO estiver adotado
-          if($animal['status_adocao'] != 'Adotado'){
+          if($animal['status_animal'] != 'Adotado'){
             echo "
                   <div class='d-flex gap-2 mt-3'>
                     <a href='editarAnimal.php?id={$animal['id_animal']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>
@@ -560,8 +560,8 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
                         WHERE a.doador_id = ? 
                         ORDER BY 
                           CASE 
-                            WHEN a.status_adocao = 'pendente' THEN 1 
-                            WHEN a.status_adocao = 'aprovada' THEN 2 
+                            WHEN a.status_solicitacao = 'pendente' THEN 1 
+                            WHEN a.status_solicitacao = 'aprovada' THEN 2 
                             ELSE 3 
                           END,
                           a.data_solicitacao DESC";
@@ -576,12 +576,12 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
           $foto = $solicitacao['foto_animal'] ? 'uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
           
           // Define badge e cor baseado no status
-          if($solicitacao['status_adocao'] == 'pendente'){
+          if($solicitacao['status_solicitacao'] == 'pendente'){
             $badge_class = 'bg-warning';
             $badge_text = '⏳ Pendente';
             $card_border = 'border-warning';
             $mostrar_botoes = true;
-          } elseif($solicitacao['status_adocao'] == 'aprovada'){
+          } elseif($solicitacao['status_solicitacao'] == 'aprovada'){
             $badge_class = 'bg-success';
             $badge_text = '✅ Aprovada';
             $card_border = 'border-success';
@@ -626,12 +626,12 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
                       ❌ Recusar
                     </a>
                   </div>";
-          } elseif($solicitacao['status_adocao'] == 'aprovada'){
+          } elseif($solicitacao['status_solicitacao'] == 'aprovada'){
             $data_aprovacao = date('d/m/Y', strtotime($solicitacao['data_adocao']));
             echo "<div class='alert alert-success mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
                     <strong>🎉 Adoção aprovada!</strong><br>Em {$data_aprovacao}
                   </div>";
-          } elseif($solicitacao['status_adocao'] == 'recusada'){
+          } elseif($solicitacao['status_solicitacao'] == 'recusada'){
             $data_recusa = date('d/m/Y', strtotime($solicitacao['data_resposta']));
             echo "<div class='alert alert-secondary mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
                     <strong>Recusada em {$data_recusa}</strong>
@@ -670,7 +670,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       $sql_outros = "SELECT a.*, u.nome_usuario 
                    FROM animais a 
                    INNER JOIN usuarios u ON a.usuario_id = u.id_usuario 
-                   WHERE a.usuario_id != ? AND a.status_adocao = 'Disponível'
+                   WHERE a.usuario_id != ? AND a.status_animal = 'Disponível'
                    ORDER BY a.id_animal DESC";
       $stmt_outros = $conn->prepare($sql_outros);
       $stmt_outros->bind_param("i", $id_usuario_sessao);
@@ -748,11 +748,11 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
           $foto = $solicitacao['foto_animal'] ? 'uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
           
           // Define badge e cor baseado no status
-          if($solicitacao['status_adocao'] == 'pendente'){
+          if($solicitacao['status_solicitacao'] == 'pendente'){
             $badge_class = 'bg-warning';
             $badge_text = '⏳ Aguardando Resposta';
             $card_border = 'border-warning';
-          } elseif($solicitacao['status_adocao'] == 'aprovada'){
+          } elseif($solicitacao['status_solicitacao'] == 'aprovada'){
             $badge_class = 'bg-success';
             $badge_text = '✅ Aprovada';
             $card_border = 'border-success';
@@ -781,12 +781,12 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
                     </small>
                   </p>";
           
-          if($solicitacao['status_adocao'] == 'aprovada'){
+          if($solicitacao['status_solicitacao'] == 'aprovada'){
             $data_aprovacao = date('d/m/Y', strtotime($solicitacao['data_adocao']));
             echo "<div class='alert alert-success mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
                     <strong>🎉 Parabéns!</strong><br>Aprovado em {$data_aprovacao}
                   </div>";
-          } elseif($solicitacao['status_adocao'] == 'recusada'){
+          } elseif($solicitacao['status_solicitacao'] == 'recusada'){
             echo "<div class='alert alert-danger mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
                     <strong>Não foi desta vez.</strong><br>Tente outros pets!
                   </div>";

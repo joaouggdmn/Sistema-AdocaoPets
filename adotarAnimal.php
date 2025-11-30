@@ -17,7 +17,7 @@ $id_doador = $animal['usuario_id'];
 $stmt_busca->close();
 
 // Verifica se o usuário já tem uma solicitação pendente para este animal
-$sql_verifica = "SELECT id_adocao FROM adocao WHERE animal_id = ? AND adotante_id = ? AND status_adocao = 'pendente'";
+$sql_verifica = "SELECT id_adocao FROM adocao WHERE animal_id = ? AND adotante_id = ? AND status_solicitacao = 'pendente'";
 $stmt_verifica = $conn->prepare($sql_verifica);
 $stmt_verifica->bind_param("ii", $id_animal, $id_adotante);
 $stmt_verifica->execute();
@@ -31,7 +31,7 @@ if($result_verifica->num_rows > 0){
 $stmt_verifica->close();
 
 // Cria uma solicitação de adoção com status pendente
-$sql_solicitacao = "INSERT INTO adocao (animal_id, adotante_id, doador_id, data_solicitacao, status_adocao) VALUES (?, ?, ?, NOW(), 'pendente')";
+$sql_solicitacao = "INSERT INTO adocao (animal_id, adotante_id, doador_id, data_solicitacao, status_solicitacao) VALUES (?, ?, ?, NOW(), 'pendente')";
 $stmt_solicitacao = $conn->prepare($sql_solicitacao);
 $stmt_solicitacao->bind_param("iii", $id_animal, $id_adotante, $id_doador);
 

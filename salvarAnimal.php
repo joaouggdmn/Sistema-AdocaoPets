@@ -25,8 +25,8 @@ if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0){
 }
 
 // Insere o animal no banco (método simples como salvarUsuario.php)
-$sql = "INSERT INTO animais (nome_animal, tipo_animal, raca_animal, idade_animal, sexo_animal, descricao_animal, foto_animal, usuario_id) 
-        VALUES('$nome', '$tipo', '$raca', '$idade', '$sexo', '$descricao', '$foto_nome', '$usuario_id')";
+$sql = "INSERT INTO animais (nome_animal, tipo_animal, raca_animal, idade_animal, sexo_animal, descricao_animal, foto_animal, usuario_id, status_animal) 
+        VALUES('$nome', '$tipo', '$raca', '$idade', '$sexo', '$descricao', '$foto_nome', '$usuario_id', 'Disponível')";
 
 if($conn->query($sql) === TRUE){
     $_SESSION['sucesso'] = "✅ Animal cadastrado com sucesso! Ele já está disponível para adoção! 🐾";
