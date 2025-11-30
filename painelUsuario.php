@@ -412,14 +412,11 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       <img src="img/casa.png" alt="casa">
       <span class="tooltip-text">Animais para Adoção</span>
     </a>
-    <a href="#meus-adotados" class="nav-btn green">
+    <a href="#minhas-solicitacoes" class="nav-btn green">
       <img src="img/coracaoverde.png" alt="coração verde">
-      <span class="tooltip-text">Meus Adotados</span>
+      <span class="tooltip-text">MMinhas Solicitações</span>
     </a>
-    <a href="#minhas-solicitacoes" class="nav-btn gold">
-      <span>📋</span>
-      <span class="tooltip-text">Minhas Solicitações</span>
-    </a>
+    
     <a href="#solicitacoes-recebidas" class="nav-btn gold">
       <span>📬</span>
       <span class="tooltip-text">Solicitações Recebidas</span>
@@ -601,7 +598,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <!-- Seção de Minhas Solicitações -->
     <div id="minhas-solicitacoes" class="card p-4 mt-4" style="scroll-margin-top: 20px;">
       <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        📋 Minhas Solicitações de Adoção
+        <img src="img/coracaoverde.png" alt="coração verde"> Minhas Solicitações de Adoção
       </h4>
 
       <p class="text-muted text-center mb-4">Acompanhe o status das suas solicitações de adoção!</p>
@@ -797,70 +794,6 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
         </div>";
       }
       $stmt_recebidas->close();
-      ?>
-    </div>
-
-    <!-- Seção de Animais que eu Adotei -->
-    <div id="meus-adotados" class="card p-4 mt-4" style="scroll-margin-top: 20px; margin-bottom: 40px;">
-      <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        <img src="img/coracaoverde.png" alt="coração verde"> Meus Animais Adotados
-      </h4>
-
-      <p class="text-muted text-center mb-4">Animais que você adotou e agora fazem parte da sua família!</p>
-      <hr class="my-4">
-
-      <?php
-      // Busca animais que o usuário atual adotou (adoções aprovadas)
-      $sql_adotados = "SELECT an.* FROM animais an 
-                       INNER JOIN adocao ad ON an.id_animal = ad.animal_id 
-                       WHERE ad.adotante_id = ? AND ad.status_adocao = 'aprovada' 
-                       ORDER BY ad.data_adocao DESC";
-      $stmt_adotados = $conn->prepare($sql_adotados);
-      $stmt_adotados->bind_param("i", $id_usuario_sessao);
-      $stmt_adotados->execute();
-      $result_adotados = $stmt_adotados->get_result();
-
-      if ($result_adotados->num_rows > 0) {
-        echo "<div class='row g-4'>";
-        while ($animal = $result_adotados->fetch_assoc()) {
-          $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
-
-          echo "
-            <div class='col-md-6 col-lg-4'>
-              <div class='card h-100' style='border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(109, 159, 113, 0.3); transition: all 0.4s ease; border: none; background: linear-gradient(145deg, #ffffff 0%, #f5fff7 100%); position: relative;'>
-                <div style='position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #6D9F71 0%, #119b4bff 50%, #6D9F71 100%); z-index: 10;'></div>
-                <img src='{$foto}' class='card-img-top' alt='{$animal['nome_animal']}' style='height: 220px; object-fit: cover; border-bottom: 3px solid #6D9F71;'>
-                <div style='position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #6D9F71 0%, #5a8a5e 100%); padding: 8px 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(109, 159, 113, 0.4); border: 2px solid white;'>
-                  <span style='font-size: 0.9rem; color: white; font-weight: 700; display: flex; align-items: center; gap: 5px;'>
-                    <span style='font-size: 1.2rem;'>💚</span> Seu Pet!
-                  </span>
-                </div>
-                <div class='card-body' style='padding: 25px;'>
-                  <div style='text-align: center; margin-bottom: 15px; padding: 10px; background: linear-gradient(135deg, rgba(109, 159, 113, 0.1) 0%, rgba(90, 138, 94, 0.05) 100%); border-radius: 12px; border-left: 4px solid #6D9F71;'>
-                    <h5 class='card-title' style='color: #6D9F71; font-weight: 800; margin: 0; font-size: 1.4rem; font-family: \"Fredoka\", sans-serif;'>{$animal['nome_animal']} 🐾</h5>
-                  </div>
-                  <div style='background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
-                    <p class='card-text mb-2' style='font-size: 0.95rem;'>
-                      <strong style='color: #6D9F71;'>{$animal['tipo_animal']}</strong> • {$animal['raca_animal']}<br>
-                      <small class='text-muted' style='display: flex; align-items: center; gap: 8px; margin-top: 8px;'>
-                        <span>👤 {$animal['sexo_animal']}</span> • <span>📅 {$animal['idade_animal']}</span>
-                      </small>
-                    </p>
-                    <p class='card-text' style='font-size: 0.9rem; color: #555; line-height: 1.5; margin-top: 10px;'>{$animal['descricao_animal']}</p>
-                  </div>
-                </div>
-              </div>
-            </div>";
-        }
-        echo "</div>";
-      } else {
-        echo "
-        <div class='alert text-center' style='background:  #119b4bff; border: none; border-radius: 15px; padding: 30px;'>
-          <h5 style='color: #FFF3E2; font-weight: 700;'> Você ainda não adotou nenhum animal!</h5>
-          <p class='mb-0' style='color: #FFF3E2;'>Que tal dar um lar para um pet que precisa de você?</p>
-        </div>";
-      }
-      $stmt_adotados->close();
       ?>
     </div>
   </div>
