@@ -7,24 +7,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
   $senha = md5($_POST['senha']);
 
-
-  $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario) VALUES ('$nome', '$email', '$senha')";
-  if ($conn->query($sql)) {
-    // Buscar o ID do usuário recém-cadastrado
-    $id_usuario = $conn->insert_id;
-    
-    // Criar a sessão automaticamente
-    $_SESSION['logado'] = true;
-    $_SESSION['id_usuario'] = $id_usuario;
-    $_SESSION['nome_usuario'] = $nome;
-    $_SESSION['email_usuario'] = $email;
-    $_SESSION['nivel_usuario'] = 'usuario'; // Usuário comum por padrão
-    
-    // Redirecionar para o painel
-    header("Location: painelUsuario.php");
-    exit;
+  // Verifica se o email já está cadastrado
+  $sql_verifica = "SELECT id_usuario FROM usuarios WHERE email_usuario = ?";
+  $stmt_verifica = $conn->prepare($sql_verifica);
+  $stmt_verifica->bind_param("s", $email);
+  $stmt_verifica->execute();
+  $result_verifica = $stmt_verifica->get_result();
+  
+  if($result_verifica->num_rows > 0){
+    $msg = "❌ Este e-mail já está cadastrado! Tente fazer login ou use outro e-mail.";
+    $msg_type = "danger";
+    $stmt_verifica->close();
   } else {
-    $msg = "Erro ao cadastrar: " . $conn->error;
+    $stmt_verifica->close();
+    
+    $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario, nivel_usuario) VALUES (?, ?, ?, 'usuario')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $nome, $email, $senha);
+    
+    if ($stmt->execute()) {
+      // Buscar o ID do usuário recém-cadastrado
+      $id_usuario = $stmt->insert_id;
+      
+      // Criar a sessão automaticamente
+      $_SESSION['logado'] = true;
+      $_SESSION['id_usuario'] = $id_usuario;
+      $_SESSION['nome'] = $nome;
+      $_SESSION['email'] = $email;
+      $_SESSION['nivel_usuario'] = 'usuario';
+      
+      $stmt->close();
+      
+      // Redirecionar para o painel
+      header("Location: painelUsuario.php");
+      exit;
+    } else {
+      $msg = "❌ Erro ao cadastrar: " . $stmt->error;
+      $msg_type = "danger";
+      $stmt->close();
+    }
   }
 }
 ?>
@@ -196,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <form method="POST" class="row g-3 mt-2">
             <div class="col-md-12">
               <label class="form-label">👤 Nome</label>
-              <input type="text" name="nome" class="form-control" placeholder="Nome completo" required>
+              <input type="text" name="nome" class="form-control" placeholder="Digite seu nome" required>
             </div>
 
             <div class="col-md-12">
@@ -208,6 +229,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <label class="form-label">🔒 Senha</label>
               <input type="password" name="senha" class="form-control" placeholder="Crie uma senha" required>
             </div>
+
+            <?php if (isset($msg)): ?>
+              <div class="text-danger text-center mt-3"><?= $msg; ?></div>
+            <?php endif; ?>
 
             <div class="col-12 mt-2" style="padding-top: 25px;">
               <div class="row g-2">
@@ -221,9 +246,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
               </div>
             </div>
-            <?php if (isset($msg)): ?>
-              <div class="alert alert-info text-center mt-3"><?= $msg; ?></div>
-            <?php endif; ?>
           </form>
         </div>
       </div>
