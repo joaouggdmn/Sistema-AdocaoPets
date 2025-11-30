@@ -12,8 +12,8 @@ if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     $_SESSION['logado'] = true;
     $_SESSION['id_usuario'] = $user['id_usuario'];
-    $_SESSION['nome'] = $user['nome_usuario'];
-    $_SESSION['email'] = $user['email_usuario'];
+    $_SESSION['nome_usuario'] = $user['nome_usuario'];
+    $_SESSION['email_usuario'] = $user['email_usuario'];
     $_SESSION['nivel_usuario'] = $user['nivel_usuario'];
 
     if ($user['nivel_usuario'] == 'admin') {
