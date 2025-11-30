@@ -439,7 +439,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <!-- Título-->
     <div class="text-center" style="margin-top: 30px; margin-bottom: 30px; padding: 15px;">
       <h1 class="titulo-animado" style="font-family: 'Fredoka', sans-serif; font-weight: 800; color: #d48224ff; font-size: 2.2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
-        Bem-vindo, <span style="color: #496b4cff;"><?= $_SESSION['nome']; ?></span>! <br> Seu novo melhor amigo tem quatro patas 
+        Bem-vindo, <span style="color: #496b4cff;"><?= $_SESSION['nome_usuario']; ?></span>! <br> Seu novo melhor amigo tem quatro patas 
         e está te esperando.
       </h1>
       <p class="subtitulo-animado" style="font-size: 1.2rem; color: #2d3748; font-weight: 600; margin-top: 15px; line-height: 1.6;">
@@ -490,11 +490,23 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
                       {$animal['sexo_animal']} • {$animal['idade_animal']}
                     </small>
                   </p>
-                  <p class='card-text' style='font-size: 0.9rem;'>{$animal['descricao_animal']}</p>
+                  <p class='card-text' style='font-size: 0.9rem;'>{$animal['descricao_animal']}</p>";
+          
+          // Só mostra botões de editar/excluir se o animal NÃO estiver adotado
+          if($animal['status_adocao'] != 'Adotado'){
+            echo "
                   <div class='d-flex gap-2 mt-3'>
                     <a href='editarAnimal.php?id={$animal['id_animal']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>
                     <a href='excluirAnimal.php?id={$animal['id_animal']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir este animal?\")'>🗑️ Excluir</a>
-                  </div>
+                  </div>";
+          } else {
+            echo "
+                  <div class='alert alert-info mb-0 mt-3' style='padding: 10px; font-size: 0.85rem; text-align: center;'>
+                    <strong>🎉 Seu pet foi adotado!</strong>
+                  </div>";
+          }
+          
+          echo "
                 </div>
               </div>
             </div>";
@@ -529,6 +541,119 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       unset($_SESSION['erro']);
     }
     ?>
+
+    <!-- Seção de Solicitações Recebidas (para quem cadastrou o pet) -->
+    <div id="solicitacoes-recebidas" class="card p-4 mt-4" style="scroll-margin-top: 20px;">
+      <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
+        📬 Solicitações Recebidas
+      </h4>
+
+      <p class="text-muted text-center mb-4">Solicitações de adoção dos seus pets!</p>
+      <hr class="my-4">
+
+      <?php
+      // Busca solicitações recebidas dos pets do usuário
+      $sql_recebidas = "SELECT a.*, an.nome_animal, an.tipo_animal, an.foto_animal, u.nome_usuario as nome_interessado 
+                        FROM adocao a 
+                        INNER JOIN animais an ON a.animal_id = an.id_animal 
+                        INNER JOIN usuarios u ON a.adotante_id = u.id_usuario 
+                        WHERE a.doador_id = ? 
+                        ORDER BY 
+                          CASE 
+                            WHEN a.status_adocao = 'pendente' THEN 1 
+                            WHEN a.status_adocao = 'aprovada' THEN 2 
+                            ELSE 3 
+                          END,
+                          a.data_solicitacao DESC";
+      $stmt_recebidas = $conn->prepare($sql_recebidas);
+      $stmt_recebidas->bind_param("i", $id_usuario_sessao);
+      $stmt_recebidas->execute();
+      $result_recebidas = $stmt_recebidas->get_result();
+
+      if ($result_recebidas->num_rows > 0) {
+        echo "<div class='row g-4'>";
+        while ($solicitacao = $result_recebidas->fetch_assoc()) {
+          $foto = $solicitacao['foto_animal'] ? 'uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+          
+          // Define badge e cor baseado no status
+          if($solicitacao['status_adocao'] == 'pendente'){
+            $badge_class = 'bg-warning';
+            $badge_text = '⏳ Pendente';
+            $card_border = 'border-warning';
+            $mostrar_botoes = true;
+          } elseif($solicitacao['status_adocao'] == 'aprovada'){
+            $badge_class = 'bg-success';
+            $badge_text = '✅ Aprovada';
+            $card_border = 'border-success';
+            $mostrar_botoes = false;
+          } else {
+            $badge_class = 'bg-danger';
+            $badge_text = '❌ Recusada';
+            $card_border = 'border-danger';
+            $mostrar_botoes = false;
+          }
+          
+          $data_formatada = date('d/m/Y H:i', strtotime($solicitacao['data_solicitacao']));
+
+          echo "
+            <div class='col-md-6 col-lg-4'>
+              <div class='card h-100 {$card_border}' style='border-radius: 15px; overflow: hidden; border-width: 3px;'>
+                <img src='{$foto}' class='card-img-top' alt='{$solicitacao['nome_animal']}' style='height: 180px; object-fit: cover;'>
+                <div class='card-body'>
+                  <div class='d-flex justify-content-between align-items-center mb-2'>
+                    <h5 class='card-title mb-0' style='color: #d69040ff; font-weight: 800;'>{$solicitacao['nome_animal']}</h5>
+                    <span class='badge {$badge_class}'>{$badge_text}</span>
+                  </div>
+                  <p class='card-text mb-2'>
+                    <strong>{$solicitacao['tipo_animal']}</strong><br>
+                    <small class='text-muted'>
+                      <strong>👤 Interessado:</strong> {$solicitacao['nome_interessado']}<br>
+                      <strong>📅 Solicitado em:</strong> {$data_formatada}
+                    </small>
+                  </p>";
+          
+          if($mostrar_botoes){
+            echo "
+                  <div class='d-flex gap-2 mt-3'>
+                    <a href='aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=aprovar' 
+                       class='btn btn-success btn-sm flex-fill' 
+                       onclick='return confirm(\"✅ Aprovar adoção de {$solicitacao['nome_animal']} para {$solicitacao['nome_interessado']}?\")'>
+                      ✅ Aprovar
+                    </a>
+                    <a href='aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=recusar' 
+                       class='btn btn-danger btn-sm flex-fill' 
+                       onclick='return confirm(\"❌ Recusar esta solicitação?\")'>
+                      ❌ Recusar
+                    </a>
+                  </div>";
+          } elseif($solicitacao['status_adocao'] == 'aprovada'){
+            $data_aprovacao = date('d/m/Y', strtotime($solicitacao['data_adocao']));
+            echo "<div class='alert alert-success mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
+                    <strong>🎉 Adoção aprovada!</strong><br>Em {$data_aprovacao}
+                  </div>";
+          } elseif($solicitacao['status_adocao'] == 'recusada'){
+            $data_recusa = date('d/m/Y', strtotime($solicitacao['data_resposta']));
+            echo "<div class='alert alert-secondary mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
+                    <strong>Recusada em {$data_recusa}</strong>
+                  </div>";
+          }
+          
+          echo "
+                </div>
+              </div>
+            </div>";
+        }
+        echo "</div>";
+      } else {
+        echo "
+        <div class='alert text-center' style='background: linear-gradient(135deg, #6D9F71 0%, #5a8a5e 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
+          <h5 style='color: white; font-weight: 700;'>📬 Você ainda não recebeu nenhuma solicitação!</h5>
+          <p class='mb-0'>Quando alguém se interessar pelos seus pets, as solicitações aparecerão aqui!</p>
+        </div>";
+      }
+      $stmt_recebidas->close();
+      ?>
+    </div>
   
     <!-- Seção de Animais Disponíveis para Adoção (de outros usuários) -->
     <div id="animais-adocao" class="card p-4 mt-4" style="scroll-margin-top: 100px;">
@@ -681,119 +806,6 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
         </div>";
       }
       $stmt_solicitacoes->close();
-      ?>
-    </div>
-
-    <!-- Seção de Solicitações Recebidas (para quem cadastrou o pet) -->
-    <div id="solicitacoes-recebidas" class="card p-4 mt-4" style="scroll-margin-top: 20px;">
-      <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        📬 Solicitações Recebidas
-      </h4>
-
-      <p class="text-muted text-center mb-4">Solicitações de adoção dos pets que você cadastrou!</p>
-      <hr class="my-4">
-
-      <?php
-      // Busca solicitações recebidas dos pets do usuário
-      $sql_recebidas = "SELECT a.*, an.nome_animal, an.tipo_animal, an.foto_animal, u.nome_usuario as nome_interessado 
-                        FROM adocao a 
-                        INNER JOIN animais an ON a.animal_id = an.id_animal 
-                        INNER JOIN usuarios u ON a.adotante_id = u.id_usuario 
-                        WHERE a.doador_id = ? 
-                        ORDER BY 
-                          CASE 
-                            WHEN a.status_adocao = 'pendente' THEN 1 
-                            WHEN a.status_adocao = 'aprovada' THEN 2 
-                            ELSE 3 
-                          END,
-                          a.data_solicitacao DESC";
-      $stmt_recebidas = $conn->prepare($sql_recebidas);
-      $stmt_recebidas->bind_param("i", $id_usuario_sessao);
-      $stmt_recebidas->execute();
-      $result_recebidas = $stmt_recebidas->get_result();
-
-      if ($result_recebidas->num_rows > 0) {
-        echo "<div class='row g-4'>";
-        while ($solicitacao = $result_recebidas->fetch_assoc()) {
-          $foto = $solicitacao['foto_animal'] ? 'uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
-          
-          // Define badge e cor baseado no status
-          if($solicitacao['status_adocao'] == 'pendente'){
-            $badge_class = 'bg-warning';
-            $badge_text = '⏳ Pendente';
-            $card_border = 'border-warning';
-            $mostrar_botoes = true;
-          } elseif($solicitacao['status_adocao'] == 'aprovada'){
-            $badge_class = 'bg-success';
-            $badge_text = '✅ Aprovada';
-            $card_border = 'border-success';
-            $mostrar_botoes = false;
-          } else {
-            $badge_class = 'bg-danger';
-            $badge_text = '❌ Recusada';
-            $card_border = 'border-danger';
-            $mostrar_botoes = false;
-          }
-          
-          $data_formatada = date('d/m/Y H:i', strtotime($solicitacao['data_solicitacao']));
-
-          echo "
-            <div class='col-md-6 col-lg-4'>
-              <div class='card h-100 {$card_border}' style='border-radius: 15px; overflow: hidden; border-width: 3px;'>
-                <img src='{$foto}' class='card-img-top' alt='{$solicitacao['nome_animal']}' style='height: 180px; object-fit: cover;'>
-                <div class='card-body'>
-                  <div class='d-flex justify-content-between align-items-center mb-2'>
-                    <h5 class='card-title mb-0' style='color: #d69040ff; font-weight: 800;'>{$solicitacao['nome_animal']}</h5>
-                    <span class='badge {$badge_class}'>{$badge_text}</span>
-                  </div>
-                  <p class='card-text mb-2'>
-                    <strong>{$solicitacao['tipo_animal']}</strong><br>
-                    <small class='text-muted'>
-                      <strong>👤 Interessado:</strong> {$solicitacao['nome_interessado']}<br>
-                      <strong>📅 Solicitado em:</strong> {$data_formatada}
-                    </small>
-                  </p>";
-          
-          if($mostrar_botoes){
-            echo "
-                  <div class='d-flex gap-2 mt-3'>
-                    <a href='aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=aprovar' 
-                       class='btn btn-success btn-sm flex-fill' 
-                       onclick='return confirm(\"✅ Aprovar adoção de {$solicitacao['nome_animal']} para {$solicitacao['nome_interessado']}?\")'>
-                      ✅ Aprovar
-                    </a>
-                    <a href='aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=recusar' 
-                       class='btn btn-danger btn-sm flex-fill' 
-                       onclick='return confirm(\"❌ Recusar esta solicitação?\")'>
-                      ❌ Recusar
-                    </a>
-                  </div>";
-          } elseif($solicitacao['status_adocao'] == 'aprovada'){
-            $data_aprovacao = date('d/m/Y', strtotime($solicitacao['data_adocao']));
-            echo "<div class='alert alert-success mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
-                    <strong>🎉 Adoção aprovada!</strong><br>Em {$data_aprovacao}
-                  </div>";
-          } elseif($solicitacao['status_adocao'] == 'recusada'){
-            $data_recusa = date('d/m/Y', strtotime($solicitacao['data_resposta']));
-            echo "<div class='alert alert-secondary mb-0 mt-2' style='padding: 10px; font-size: 0.85rem;'>
-                    <strong>Recusada em {$data_recusa}</strong>
-                  </div>";
-          }
-          
-          echo "
-                </div>
-              </div>
-            </div>";
-        }
-        echo "</div>";
-      } else {
-        echo "
-        <div class='alert text-center' style='background: linear-gradient(135deg, #6D9F71 0%, #5a8a5e 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
-          <h5 style='color: white; font-weight: 700;'>📬 Você ainda não recebeu nenhuma solicitação!</h5>
-          <p class='mb-0'>Quando alguém se interessar pelos seus pets, as solicitações aparecerão aqui!</p>
-        </div>";
-      }
-      $stmt_recebidas->close();
       ?>
     </div>
   </div>
