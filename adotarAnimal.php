@@ -2,39 +2,47 @@
 session_start();
 require 'config.php';
 
-// Verifica se o usuário está logado
-if (!isset($_SESSION['logado']) || !isset($_SESSION['id_usuario'])) {
-    $_SESSION['erro'] = "❌ Você precisa estar logado para adotar um animal!";
-    header("Location: index.php");
-    exit;
-}
-
 $id_animal = $_GET['id'];
-$id_usuario = $_SESSION['id_usuario'];
+$id_adotante = $_SESSION['id_usuario'];
 
-// Primeiro busca o nome do animal
-$sql_busca = "SELECT nome_animal FROM animais WHERE id_animal = ?";
+// Busca informações do animal e do doador
+$sql_busca = "SELECT nome_animal, usuario_id FROM animais WHERE id_animal = ?";
 $stmt_busca = $conn->prepare($sql_busca);
 $stmt_busca->bind_param("i", $id_animal);
 $stmt_busca->execute();
 $result = $stmt_busca->get_result();
 $animal = $result->fetch_assoc();
 $nome_animal = $animal['nome_animal'];
+$id_doador = $animal['usuario_id'];
 $stmt_busca->close();
 
-// Atualiza o animal com status Adotado e registra quem adotou
-$sql_atualiza = "UPDATE animais SET status_adocao = 'Adotado', adotante_id = ? WHERE id_animal = ?";
-$stmt_atualiza = $conn->prepare($sql_atualiza);
-$stmt_atualiza->bind_param("ii", $id_usuario, $id_animal);
+// Verifica se o usuário já tem uma solicitação pendente para este animal
+$sql_verifica = "SELECT id_adocao FROM adocao WHERE animal_id = ? AND adotante_id = ? AND status_adocao = 'pendente'";
+$stmt_verifica = $conn->prepare($sql_verifica);
+$stmt_verifica->bind_param("ii", $id_animal, $id_adotante);
+$stmt_verifica->execute();
+$result_verifica = $stmt_verifica->get_result();
 
-if($stmt_atualiza->execute()){
-    $_SESSION['sucesso'] = "🎉 Parabéns! Você adotou {$nome_animal}! Que esse novo amiguinho traga muita alegria! 🐾❤️";
-    header("Location: painelUsuario.php#meus-adotados");
+if($result_verifica->num_rows > 0){
+    $_SESSION['erro'] = "⏳ Você já tem uma solicitação pendente para {$nome_animal}. Aguarde a resposta do doador!";
+    header("Location: painelUsuario.php");
+    exit;
+}
+$stmt_verifica->close();
+
+// Cria uma solicitação de adoção com status pendente
+$sql_solicitacao = "INSERT INTO adocao (animal_id, adotante_id, doador_id, data_solicitacao, status_adocao) VALUES (?, ?, ?, NOW(), 'pendente')";
+$stmt_solicitacao = $conn->prepare($sql_solicitacao);
+$stmt_solicitacao->bind_param("iii", $id_animal, $id_adotante, $id_doador);
+
+if($stmt_solicitacao->execute()){
+    $_SESSION['sucesso'] = "✅ Solicitação enviada! O doador de {$nome_animal} receberá sua solicitação e irá avaliá-la em breve! 🐾";
+    header("Location: painelUsuario.php#minhas-solicitacoes");
 } else {
-    $_SESSION['erro'] = "❌ Erro ao processar a adoção. Tente novamente!";
+    $_SESSION['erro'] = "❌ Erro ao enviar solicitação. Tente novamente!";
     header("Location: painelUsuario.php");
 }
 
-$stmt_atualiza->close();
+$stmt_solicitacao->close();
 $conn->close();
 ?>
