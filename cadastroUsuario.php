@@ -3,8 +3,8 @@ session_start();
 require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $nome = $_POST['nome'];
-  $email = $_POST['email'];
+  $nome = $_POST['nome_usuario'];
+  $email = $_POST['email_usuario'];
   $senha = md5($_POST['senha']);
 
   // Verifica se o email já está cadastrado
@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // Criar a sessão automaticamente
       $_SESSION['logado'] = true;
       $_SESSION['id_usuario'] = $id_usuario;
-      $_SESSION['nome'] = $nome;
-      $_SESSION['email'] = $email;
+      $_SESSION['nome_usuario'] = $nome;
+      $_SESSION['email_usuario'] = $email;
       $_SESSION['nivel_usuario'] = 'usuario';
       
       $stmt->close();
@@ -217,12 +217,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <form method="POST" class="row g-3 mt-2">
             <div class="col-md-12">
               <label class="form-label">👤 Nome</label>
-              <input type="text" name="nome" class="form-control" placeholder="Digite seu nome" required>
+              <input type="text" name="nome_usuario" class="form-control" placeholder="Digite seu nome" required>
             </div>
 
             <div class="col-md-12">
               <label class="form-label">📧 E-mail</label>
-              <input type="email" name="email" class="form-control" placeholder="seu@exemplo.com" required>
+              <input type="email" name="email_usuario" class="form-control" placeholder="seu@exemplo.com" required>
             </div>
 
             <div class="col-md-12">

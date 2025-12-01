@@ -430,7 +430,7 @@ session_start(); ?>
             <form action="validaLogin.php" method="POST">
               <div class="mb-3">
                 <label class="form-label fw-bold">📧 E-mail</label>
-                <input type="email" name="email" class="form-control" placeholder="seu@email.com" required style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px;">
+                <input type="email" name="email_usuario" class="form-control" placeholder="seu@email.com" required style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px;">
               </div>
 
               <div class="mb-4">

@@ -2,7 +2,7 @@
 session_start();
 require 'config.php';
 
-$email = $_POST['email'];
+$email = $_POST['email_usuario'];
 $senha = md5($_POST['senha']);
 
 $sql = "SELECT * FROM usuarios WHERE email_usuario='$email' AND senha_usuario='$senha'";

@@ -404,7 +404,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
 
 
    
-    <a href="#animais_cadastrados" class="nav-btn gold">
+    <a href="#animais_cadastrados" class="nav-btn gold" style="margin-top: auto; ">
       <img src="img/gato.png" alt="gato">
       <span class="tooltip-text">Cadastrar Animal</span>
     </a>
@@ -429,7 +429,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       <span class="tooltip-text">Editar Perfil</span>
     </a>
 
-    <a href="logout.php" class="nav-btn gold" onclick="return confirm('🚪 Você realmente deseja sair do sistema?')">
+    <a href="logout.php" class="nav-btn gold" style="margin-bottom: auto;" onclick="return confirm('🚪 Você realmente deseja sair do sistema?')">
       <span>🚪</span>
       <span class="tooltip-text">Sair</span>
     </a>
@@ -439,13 +439,32 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <!-- Título-->
     <div class="text-center" style="margin-top: 30px; margin-bottom: 30px; padding: 15px;">
       <h1 class="titulo-animado" style="font-family: 'Fredoka', sans-serif; font-weight: 800; color: #d48224ff; font-size: 2.2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
-        Bem-vindo, <span style="color: #496b4cff;"><?= $_SESSION['nome_usuario']; ?></span>! <br> Seu novo melhor amigo tem quatro patas 
+        Bem-vindo (a), <span style="color: #496b4cff;"><?= $_SESSION['nome_usuario']; ?></span>! <br> Seu novo melhor amigo tem quatro patas
         e está te esperando.
       </h1>
       <p class="subtitulo-animado" style="font-size: 1.2rem; color: #2d3748; font-weight: 600; margin-top: 15px; line-height: 1.6;">
         Adote. Ame. Acolha.<br>
       </p>
     </div>
+
+    <?php
+    // Exibe mensagem de sucesso se houver
+    if (isset($_SESSION['sucesso'])) {
+      echo "<div class='alert alert-success alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #119b4bff; margin-top: 20px;'>
+              <strong>{$_SESSION['sucesso']}</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>";
+      unset($_SESSION['sucesso']);
+    }
+    // Exibe mensagem de erro se houver
+    if (isset($_SESSION['erro'])) {
+      echo "<div class='alert alert-danger alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #ff6b9d;'>
+              <strong>{$_SESSION['erro']}</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+            </div>";
+      unset($_SESSION['erro']);
+    }
+    ?>
 
     <div id="animais_cadastrados" class="card p-4" style="margin-top: 40px;">
       <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
@@ -522,25 +541,6 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       $stmt->close();
       ?>
     </div>
-
-    <?php
-    // Exibe mensagem de sucesso se houver
-    if (isset($_SESSION['sucesso'])) {
-      echo "<div class='alert alert-success alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #119b4bff; margin-top: 20px;'>
-              <strong>{$_SESSION['sucesso']}</strong>
-              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-            </div>";
-      unset($_SESSION['sucesso']);
-    }
-    // Exibe mensagem de erro se houver
-    if (isset($_SESSION['erro'])) {
-      echo "<div class='alert alert-danger alert-dismissible fade show' role='alert' style='border-radius: 15px; border-left: 5px solid #ff6b9d;'>
-              <strong>{$_SESSION['erro']}</strong>
-              <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-            </div>";
-      unset($_SESSION['erro']);
-    }
-    ?>
 
     <!-- Seção de Solicitações Recebidas (para quem cadastrou o pet) -->
     <div id="solicitacoes-recebidas" class="card p-4 mt-4" style="scroll-margin-top: 20px;">

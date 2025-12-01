@@ -498,7 +498,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
           <!-- Texto de boas-vindas -->
           <div style="flex: 1;">
             <h2 class="welcome-title">
-              Bem-vindo de volta, <span class="username"><?= $_SESSION['nome']; ?></span>!
+              Bem-vindo de volta, <span class="username"><?= $_SESSION['nome_usuario']; ?></span>!
             </h2>
             <div class="badges">
               <span class="badge-access">

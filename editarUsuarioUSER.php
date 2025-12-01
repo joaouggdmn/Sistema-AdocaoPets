@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     if($conn->query($sql_update) === TRUE){
-        $_SESSION['nome'] = $nome; // Atualiza o nome na sessão
+        $_SESSION['nome_usuario'] = $nome; // Atualiza o nome na sessão
         $_SESSION['sucesso'] = "✅ Perfil atualizado com sucesso!";
         header("Location: painelUsuario.php");
         exit;
