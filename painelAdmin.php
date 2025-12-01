@@ -446,7 +446,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
     }
 
     footer a:hover {
-      color: #6D9F71 !important;
+      color: #e08574ff !important;
       transform: translateX(5px);
     }
   </style>
@@ -467,6 +467,11 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
     <a href="#animais-adocao" class="nav-btn gold">
       <span>🐾</span>
       <span class="tooltip-text">Gerenciar Animais</span>
+    </a>
+    
+    <a href="#adocoes" class="nav-btn gold">
+      <span>💚</span>
+      <span class="tooltip-text">Gerenciar Adoções</span>
     </a>
 
     <div class="divider"></div>
@@ -645,6 +650,111 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
           <h5>🔍 Nenhum animal cadastrado no sistema</h5>
           <p class='mb-0'>Aguarde os usuários cadastrarem animais para adoção!</p>
         </div>";
+      }
+      ?>
+    </div>
+
+    <!-- Seção de Gerenciamento de Adoções -->
+    <div id="adocoes" class="card p-4 mt-4 section-card">
+      <h4 class="section-title">
+        💚 Gerenciar Adoções
+      </h4>
+      <p class="text-muted text-center mb-4">Acompanhe e gerencie todas as solicitações de adoção do sistema</p>
+      <hr class="my-4">
+
+      <?php
+      // Busca todas as adoções do sistema com informações completas
+      $sql_adocoes = "SELECT 
+                        a.id_adocao,
+                        a.status_solicitacao,
+                        a.data_solicitacao,
+                        a.data_resposta,
+                        a.data_adocao,
+                        an.nome_animal,
+                        an.tipo_animal,
+                        an.foto_animal,
+                        doador.nome_usuario as nome_doador,
+                        adotante.nome_usuario as nome_adotante
+                      FROM adocao a
+                      INNER JOIN animais an ON a.animal_id = an.id_animal
+                      INNER JOIN usuarios doador ON a.doador_id = doador.id_usuario
+                      INNER JOIN usuarios adotante ON a.adotante_id = adotante.id_usuario
+                      ORDER BY 
+                        CASE 
+                          WHEN a.status_solicitacao = 'pendente' THEN 1
+                          WHEN a.status_solicitacao = 'aprovada' THEN 2
+                          ELSE 3
+                        END,
+                        a.data_solicitacao DESC";
+      $result_adocoes = $conn->query($sql_adocoes);
+
+      if ($result_adocoes->num_rows > 0) {
+        echo "<div class='row g-4'>";
+        while ($adocao = $result_adocoes->fetch_assoc()) {
+          $foto = $adocao['foto_animal'] ? 'uploads/' . $adocao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+          
+          // Define badge e estilo baseado no status
+          if($adocao['status_solicitacao'] == 'pendente'){
+            $badge_class = 'bg-warning text-dark';
+            $badge_text = '⏳ Pendente';
+            $card_border = 'border-warning';
+          } elseif($adocao['status_solicitacao'] == 'aprovada'){
+            $badge_class = 'bg-success';
+            $badge_text = '✅ Aprovada';
+            $card_border = 'border-success';
+          } else {
+            $badge_class = 'bg-danger';
+            $badge_text = '❌ Recusada';
+            $card_border = 'border-danger';
+          }
+          
+          $data_solicitacao = date('d/m/Y H:i', strtotime($adocao['data_solicitacao']));
+          
+          echo "<div class='col-md-6 col-lg-4'>";
+          echo "  <div class='card h-100 {$card_border}' style='border-radius: 15px; overflow: hidden; border-width: 3px;'>";
+          echo "    <img src='{$foto}' class='card-img-top' alt='{$adocao['nome_animal']}' style='height: 180px; object-fit: cover;'>";
+          echo "    <div class='card-body'>";
+          echo "      <div class='d-flex justify-content-between align-items-center mb-3'>";
+          echo "        <h5 class='card-title mb-0' style='color: #d69040ff; font-weight: 800;'>{$adocao['nome_animal']}</h5>";
+          echo "        <span class='badge {$badge_class}'>{$badge_text}</span>";
+          echo "      </div>";
+          echo "      <p class='card-text mb-2'>";
+          echo "        <strong>{$adocao['tipo_animal']}</strong><br>";
+          echo "        <small class='text-muted' style='line-height: 1.8;'>";
+          echo "          <strong>🏠 Doador:</strong> {$adocao['nome_doador']}<br>";
+          echo "          <strong>💕 Adotante:</strong> {$adocao['nome_adotante']}<br>";
+          echo "          <strong>📅 Solicitado:</strong> {$data_solicitacao}<br>";
+          
+          if($adocao['status_solicitacao'] == 'aprovada' && $adocao['data_adocao']){
+            $data_aprovacao = date('d/m/Y', strtotime($adocao['data_adocao']));
+            echo "          <strong>✅ Aprovado:</strong> {$data_aprovacao}<br>";
+          } elseif($adocao['status_solicitacao'] == 'recusada' && $adocao['data_resposta']){
+            $data_recusa = date('d/m/Y', strtotime($adocao['data_resposta']));
+            echo "          <strong>❌ Recusado:</strong> {$data_recusa}<br>";
+          }
+          
+          echo "        </small>";
+          echo "      </p>";
+          
+          // Badge de ID da adoção
+          echo "      <div class='mt-2 mb-3'>";
+          echo "        <span class='badge bg-secondary' style='font-size: 0.75rem;'>ID: {$adocao['id_adocao']}</span>";
+          echo "      </div>";
+          
+          echo "      <div class='d-flex gap-2 mt-3'>";
+          echo "        <a href='editarAdocao.php?id={$adocao['id_adocao']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>";
+          echo "        <a href='excluirAdocao.php?id={$adocao['id_adocao']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir esta adoção?\")'>🗑️ Excluir</a>";
+          echo "      </div>";
+          echo "    </div>";
+          echo "  </div>";
+          echo "</div>";
+        }
+        echo "</div>";
+      } else {
+        echo "<div class='alert text-center alert-info-custom'>";
+        echo "  <h5>🔍 Nenhuma adoção registrada no sistema</h5>";
+        echo "  <p class='mb-0'>As adoções aparecerão aqui quando os usuários solicitarem!</p>";
+        echo "</div>";
       }
       ?>
     </div>
