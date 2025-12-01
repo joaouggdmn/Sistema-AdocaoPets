@@ -444,6 +444,11 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
       color: white;
       font-weight: 700;
     }
+
+    footer a:hover {
+      color: #6D9F71 !important;
+      transform: translateX(5px);
+    }
   </style>
 </head>
 
@@ -587,7 +592,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
       </table>
     </div>
 
-    <div id="animais-adocao" class="card p-4 mt-4 animais-section">
+    <div id="animais-adocao" class="card p-4 mt-4 animais-section" style="margin-bottom: 40px;">
       <h4 class="section-title">
         📋 Gerenciar Animais
       </h4>
@@ -644,6 +649,59 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
       ?>
     </div>
   </div>
+
+  <footer style="background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); padding: 50px 0 30px 0; margin-top: auto; color: #e2e8f0; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15); border-top: 3px solid #d69040ff;">
+    <div class="container">
+      <div class="row">
+        <!-- Coluna 1: Sobre -->
+        <div class="col-md-4 mb-4">
+          <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px; font-size: 1.3rem;">
+            <img src="img/patamenor.png" alt="logo AUcolher"> Projeto AUcolher
+          </h5>
+          <p style="color: #cbd5e0; line-height: 1.8; font-size: 0.95rem;">
+            Conectando corações a patinhas desde 2025. Nossa missão é proporcionar um lar cheio de amor para cada animal que precisa de uma segunda chance.
+          </p>
+        </div>
+
+        <!-- Coluna 2: Links Rápidos -->
+        <div class="col-md-4 mb-4">
+          <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px; font-size: 1.3rem;">
+            Links Rápidos
+          </h5>
+          <ul style="list-style: none; padding: 0; line-height: 2.2;">
+            <li><a href="#login-section" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Login</a></li>
+            <li><a href="cadastroUsuario.php" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Cadastre-se</a></li>
+            <li><a href="#" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Como Adotar</a></li>
+            <li><a href="#" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Sobre Nós</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Contato -->
+        <div class="col-md-4 mb-4">
+          <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px; font-size: 1.3rem;">
+            Fale Conosco
+          </h5>
+          <p style="color: #cbd5e0; line-height: 2; font-size: 0.95rem;">
+            📧 <a href="mailto:losgoatsdecedup@gmail.com" style="color: #6D9F71; text-decoration: none;">losgoatsdecedup@gmail.com</a><br>
+            📱 <span style="color: #cbd5e0;">(48) 99662-1945</span><br>
+            📍 <span style="color: #cbd5e0;">Criciúma, SC - Brasil</span>
+          </p>
+          <p style="color: #cbd5e0; font-size: 0.9rem; margin-top: 20px; font-style: italic;">
+            "A grandeza de uma nação pode ser julgada pelo modo como seus animais são tratados." - Gandhi
+          </p>
+        </div>
+      </div>
+
+      <hr style="border-color: rgba(214, 144, 64, 0.3); margin: 30px 0 20px 0;">
+
+      <div class="text-center">
+        <p style="color: #a0aec0; font-size: 0.9rem; margin: 0; font-family: 'Nunito', sans-serif;">
+          © 2025 <strong style="color: #d69040ff;">Projeto AUcolher</strong> • Todos os direitos reservados • Feito com ❤️ para os animais
+        </p>
+      </div>
+    </div>
+  </footer>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

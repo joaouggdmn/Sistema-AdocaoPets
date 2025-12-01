@@ -392,6 +392,11 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     .subtitulo-animado {
       animation: bounceIn 1.2s ease-out 0.3s backwards;
     }
+
+    footer a:hover {
+      color: #6D9F71 !important;
+      transform: translateX(5px);
+    }
   </style>
 </head>
 
@@ -809,6 +814,60 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       ?>
     </div>
   </div>
+
+  <!-- Footer Profissional -->
+  <footer style="background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); color: white; margin-top: 60px; padding: 50px 0 20px 0; border-top: 4px solid #d69040ff;">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Coluna 1: Sobre -->
+        <div class="col-md-4">
+          <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px;">
+            <img src="img/patamenor.png" alt="pata menor">  AUcolher
+          </h5>
+          <p style="line-height: 1.8; color: rgba(255,255,255,0.85); font-size: 0.95rem;">
+            Conectando corações a patinhas desde 2025. <br> Nossa missão é proporcionar um lar cheio de amor para cada animal que precisa de uma segunda chance.</p>
+        </div>
+
+        <!-- Coluna 2: Links Rápidos -->
+        <div class="col-md-4 mb-4">
+          <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px; font-size: 1.3rem;">
+            Links Rápidos
+          </h5>
+          <ul style="list-style: none; padding: 0; line-height: 2.2;">
+            <li><a href="#login-section" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Meus Animais</a></li>
+            <li><a href="cadastroUsuario.php" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Solicitações Recebidas</a></li>
+            <li><a href="#" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Animais Disponíveis</a></li>
+            <li><a href="#" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Minhas Solicitações</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Contato & Inspiração -->
+        <div class="col-md-4 mb-4">
+          <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px; font-size: 1.3rem;">
+            Fale Conosco
+          </h5>
+          <p style="color: #cbd5e0; line-height: 2; font-size: 0.95rem;">
+            📧 <a href="mailto:losgoatsdecedup@gmail.com" style="color: #6D9F71; text-decoration: none;">losgoatsdecedup@gmail.com</a><br>
+            📱 <span style="color: #cbd5e0;">(48) 99662-1945</span><br>
+            📍 <span style="color: #cbd5e0;">Criciúma, SC - Brasil</span>
+          </p>
+          <p style="color: #cbd5e0; font-size: 0.9rem; margin-top: 20px; font-style: italic;">
+            "A grandeza de uma nação pode ser julgada pelo modo como seus animais são tratados." - Gandhi
+          </p>
+        </div>
+      </div>
+
+      <!-- Linha separadora -->
+      <hr style="border-color: rgba(255,255,255,0.2); margin: 40px 0 20px 0;">
+
+      <!-- Copyright -->
+      <div class="text-center">
+        <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+          © 2025 <strong style="color: #d69040ff;">AUcolher</strong>. Todos os direitos reservados. Feito com 💛 para os pets.
+        </p>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
