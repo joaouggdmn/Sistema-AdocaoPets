@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // Verifica se é admin
 if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
-  header("Location: index.php");
+  header("Location: ../index.php");
   exit;
 }
 
@@ -101,11 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>Editar Adoção - Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
   <style>
     body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
-      min-height: 100vh;
       padding: 40px 0;
     }
 
@@ -113,71 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       max-width: 800px;
     }
 
-    .card {
-      background: white;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    }
-
     h3 {
       color: #FF6B6B;
-      font-weight: 800;
-      font-family: 'Fredoka', sans-serif;
-    }
-
-    .form-label {
-      font-weight: 700;
-      color: #2d3748;
-    }
-
-    .form-control,
-    .form-select {
-      border-radius: 12px;
-      border: 2px solid #e2e8f0;
-      padding: 12px 15px;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-      border-color: #FF6B6B;
-      box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      border: none;
-      color: white;
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 12px 30px;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-      border: none;
-      color: white;
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 12px 30px;
-    }
-
-    .btn-secondary:hover {
-      background: linear-gradient(135deg, #5a6268 0%, #4e555b 100%);
-      transform: translateY(-2px);
-    }
-
-    .info-box {
-      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 82, 82, 0.1) 100%);
-      border-left: 4px solid #FF6B6B;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
     }
   </style>
 </head>

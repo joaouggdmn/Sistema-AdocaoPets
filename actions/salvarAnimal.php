@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // Verifica se está logado
 if (!isset($_SESSION['logado'])) {
-    header("Location: login.php");
+    header("Location: ../index.php#login-section");
     exit;
 }
 
@@ -21,7 +21,7 @@ $usuario_id = $_SESSION['id_usuario'];
 $foto_nome = null;
 if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0){
     $foto_nome = $_FILES['foto']['name'];
-    move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/' . $foto_nome);
+    move_uploaded_file($_FILES['foto']['tmp_name'], '../assets/uploads/' . $foto_nome);
 }
 
 // Insere o animal no banco (método simples como salvarUsuario.php)
@@ -30,9 +30,9 @@ $sql = "INSERT INTO animais (nome_animal, tipo_animal, raca_animal, idade_animal
 
 if($conn->query($sql) === TRUE){
     $_SESSION['sucesso'] = "✅ Animal cadastrado com sucesso! Ele já está disponível para adoção! 🐾";
-    header("Location: painelUsuario.php");
+    header("Location: ../user/painelUsuario.php");
 } else {
     $_SESSION['erro'] = "❌ Erro ao cadastrar: " . $conn->error;
-    header("Location: cadastroAnimal.php");
+    header("Location: ../user/cadastroAnimal.php");
 }
 ?>

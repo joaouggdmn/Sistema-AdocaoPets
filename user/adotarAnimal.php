@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 $id_animal = $_GET['id'];
 $id_adotante = $_SESSION['id_usuario'];

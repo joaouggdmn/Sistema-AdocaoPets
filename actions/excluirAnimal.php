@@ -1,17 +1,17 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // Verifica se está logado
 if (!isset($_SESSION['logado'])) {
-    header("Location: login.php");
+    header("Location: ../index.php#login-section");
     exit;
 }
 
 // Verifica se o ID foi passado
 if(!isset($_GET['id']) || empty($_GET['id'])){
     $_SESSION['erro'] = "❌ Animal não encontrado!";
-    $redirect = ($_SESSION['nivel_usuario'] == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+    $redirect = ($_SESSION['nivel_usuario'] == 'admin') ? '../admin/painelAdmin.php' : '../user/painelUsuario.php';
     header("Location: $redirect");
     exit;
 }
@@ -31,7 +31,7 @@ $result = $conn->query($sql_verifica);
 
 if($result->num_rows == 0){
     $_SESSION['erro'] = "❌ Você não tem permissão para excluir este animal!";
-    $redirect = ($nivel_usuario == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+    $redirect = ($nivel_usuario == 'admin') ? '../admin/painelAdmin.php' : '../user/painelUsuario.php';
     header("Location: $redirect");
     exit;
 }
@@ -39,8 +39,8 @@ if($result->num_rows == 0){
 $animal = $result->fetch_assoc();
 
 // Exclui a foto se existir
-if($animal['foto_animal'] && file_exists('uploads/' . $animal['foto_animal'])){
-    unlink('uploads/' . $animal['foto_animal']);
+if($animal['foto_animal'] && file_exists('../assets/uploads/' . $animal['foto_animal'])){
+    unlink('../assets/uploads/' . $animal['foto_animal']);
 }
 
 // Exclui o animal do banco
@@ -52,6 +52,6 @@ if($conn->query($sql_excluir) === TRUE){
     $_SESSION['erro'] = "❌ Erro ao excluir: " . $conn->error;
 }
 
-$redirect = ($_SESSION['nivel_usuario'] == 'admin') ? 'painelAdmin.php' : 'painelUsuario.php';
+$redirect = ($_SESSION['nivel_usuario'] == 'admin') ? '../admin/painelAdmin.php' : '../user/painelUsuario.php';
 header("Location: $redirect");
 ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 $id_adocao = $_GET['id'];
 $acao = $_GET['acao']; // 'aprovar' ou 'recusar'
@@ -17,7 +17,7 @@ $result = $stmt_verifica->get_result();
 
 if($result->num_rows == 0){
     $_SESSION['erro'] = "❌ Solicitação não encontrada ou você não tem permissão!";
-    header("Location: painelUsuario.php");
+    header("Location: ../user/painelUsuario.php");
     exit;
 }
 
@@ -40,7 +40,7 @@ if($acao == 'aprovar'){
     
     if($animal_status['status_animal'] == 'Adotado'){
         $_SESSION['erro'] = "❌ Este animal já foi adotado por outra pessoa!";
-        header("Location: painelUsuario.php#solicitacoes-recebidas");
+        header("Location: ../user/painelUsuario.php#solicitacoes-recebidas");
         exit;
     }
     
@@ -51,7 +51,7 @@ if($acao == 'aprovar'){
     
     if(!$stmt_aprovar->execute()){
         $_SESSION['erro'] = "❌ Erro ao aprovar solicitação: " . $stmt_aprovar->error;
-        header("Location: painelUsuario.php#solicitacoes-recebidas");
+        header("Location: ../user/painelUsuario.php#solicitacoes-recebidas");
         exit;
     }
     $stmt_aprovar->close();
@@ -63,7 +63,7 @@ if($acao == 'aprovar'){
     
     if(!$stmt_animal->execute()){
         $_SESSION['erro'] = "❌ Erro ao atualizar animal: " . $stmt_animal->error;
-        header("Location: painelUsuario.php#solicitacoes-recebidas");
+        header("Location: ../user/painelUsuario.php#solicitacoes-recebidas");
         exit;
     }
     $stmt_animal->close();
@@ -76,7 +76,7 @@ if($acao == 'aprovar'){
     $stmt_recusar->execute();
     $stmt_recusar->close();
     
-    $_SESSION['sucesso'] = "✅ Solicitação aprovada! {$nome_animal} foi adotado com sucesso! 🎉";
+    $_SESSION['sucesso'] = "✅ Solicitação aprovada! {$nome_animal} foi adotado com sucesso!";
     
 } elseif($acao == 'recusar'){
     // Atualiza status da solicitação para recusada
@@ -91,6 +91,6 @@ if($acao == 'aprovar'){
     $_SESSION['erro'] = "❌ Ação inválida!";
 }
 
-header("Location: painelUsuario.php#solicitacoes-recebidas");
+header("Location: ../user/painelUsuario.php#solicitacoes-recebidas");
 exit;
 ?>

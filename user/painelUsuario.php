@@ -1,9 +1,9 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
-  header("Location: index.php");
+  header("Location: ../index.php#login-section");
   exit;
 }
 ?>
@@ -16,410 +16,29 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
   <title>Painel do Usuário</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --pet-primary: #FF6B6B;
-      --pet-secondary: #4ECDC4;
-      --pet-accent: #FFE66D;
-      --pet-dark: #2d3748;
-    }
-
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #A9CBB7 0%, #6D9F71 100%);
-      min-height: 100vh;
-    }
-
-    .navbar {
-      background: #f7c58dff;
-      box-shadow: 0 4px 12px rgba(247, 197, 141, 0.3);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .navbar a {
-      color: #2d3748 !important;
-      font-family: 'Fredoka', 'Nunito', sans-serif;
-      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-    }
-
-    .card {
-      background: white;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .btn-warning {
-      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
-      border: none;
-      color: white;
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 10px 24px;
-      box-shadow: 0 4px 12px rgba(214, 144, 64, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .btn-warning:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(214, 144, 64, 0.4);
-      background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
-      color: white;
-    }
-
-    .btn-light {
-      background: rgba(255, 255, 255, 0.95);
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      color: var(--pet-dark);
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 10px 20px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-light:hover {
-      background: white;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
-      color: var(--pet-dark);
-    }
-
-    h3 {
-      color: #d69040ff;
-      font-weight: 800;
-      font-family: 'Fredoka', sans-serif;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
-    }
-
-    .alert {
-      border-radius: 15px;
-      border: none;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .alert-success {
-      background: linear-gradient(135deg, #6D9F71 0%, #5a8a5e 100%);
-      color: white;
-      border-left: 5px solid #119b4bff;
-    }
-
-    .alert-danger {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      color: white;
-      border-left: 5px solid #ff3838;
-    }
-
-    .btn-sm {
-      border-radius: 10px;
-      font-weight: 700;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-      transition: all 0.3s ease;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      border: none;
-    }
-
-    .btn-danger:hover {
-      background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
-      transform: translateY(-2px);
-    }
-
-    /* Animação para botão de cadastrar animal */
-    .btn-cadastrar-animal {
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .btn-cadastrar-animal::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-      z-index: -1;
-    }
-
-    .btn-cadastrar-animal:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-
-    .btn-cadastrar-animal:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 30px rgba(214, 144, 64, 0.5);
-    }
-
-    /* Animação para botão de adotar animal */
-    .btn-adotar-animal {
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-      border-radius: 12px;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .btn-adotar-animal::before {
-      content: '❤️';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      font-size: 0;
-      transform: translate(-50%, -50%);
-      transition: font-size 0.5s ease;
-      z-index: -1;
-    }
-
-    .btn-adotar-animal:hover::before {
-      font-size: 80px;
-      opacity: 0.2;
-    }
-
-    .btn-adotar-animal:hover {
-      transform: translateY(-4px) scale(1.08);
-      box-shadow: 0 12px 35px rgba(17, 155, 75, 0.6);
-      background: linear-gradient(135deg, #0d7a3c 0%, #119b4bff 100%);
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(17, 155, 75, 0.7);
-      }
-
-      70% {
-        box-shadow: 0 0 0 10px rgba(17, 155, 75, 0);
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 rgba(17, 155, 75, 0);
-      }
-    }
-
-    .btn-adotar-animal:active {
-      animation: pulse 0.5s;
-      transform: scale(0.95);
-    }
-
-    /* Sidebar fixa à esquerda */
-    .sidebar-left {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 90px;
-      height: 100vh;
-      background: linear-gradient(180deg, #f7c58dff 0%, #d69040ff 100%);
-      backdrop-filter: blur(10px);
-      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 0 15px 0;
-      gap: 12px;
-      z-index: 1000;
-      border-right: 3px solid rgba(255, 255, 255, 0.3);
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .sidebar-left::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    .sidebar-left::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .sidebar-left::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 10px;
-    }
-
-    .sidebar-left .logo-container {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 10px;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      flex-shrink: 0;
-    }
-
-    .sidebar-left .logo-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .sidebar-left .nav-btn {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.7rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: 3px solid rgba(255, 255, 255, 0.4);
-      position: relative;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .sidebar-left .nav-btn:hover {
-      transform: scale(1.15) rotate(5deg);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      border-color: white;
-    }
-
-    .sidebar-left .nav-btn.green {
-      background: linear-gradient(135deg, #119b4bff 0%, #0d7a3c 100%);
-    }
-
-    .sidebar-left .nav-btn.gold {
-      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
-    }
-
-    .sidebar-left .nav-btn.red {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-    }
-
-    .sidebar-left .nav-btn .tooltip-text {
-      visibility: hidden;
-      background-color: rgba(45, 55, 72, 0.95);
-      color: white;
-      text-align: center;
-      border-radius: 8px;
-      padding: 8px 15px;
-      position: absolute;
-      z-index: 1;
-      left: 80px;
-      white-space: nowrap;
-      font-size: 0.9rem;
-      font-weight: 700;
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-family: 'Fredoka', sans-serif;
-    }
-
-    .sidebar-left .nav-btn:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .sidebar-left .divider {
-      width: 50%;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.4);
-      margin: 5px 0;
-      flex-shrink: 0;
-    }
-
-    .sidebar-left .divider-primeiro {
-      width: 50%;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.4);
-      margin: 5px 0;
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar-left {
-        width: 70px;
-        gap: 10px;
-        padding: 15px 0 10px 0;
-      }
-
-      .sidebar-left .logo-container {
-        width: 45px;
-        height: 45px;
-        margin-bottom: 5px;
-      }
-
-      .sidebar-left .nav-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.4rem;
-      }
-    }
-
-    /* Animações para título motivacional */
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes bounceIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.3);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-      70% {
-        transform: scale(0.9);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .titulo-animado {
-      animation: fadeInDown 1s ease-out;
-    }
-
-    .subtitulo-animado {
-      animation: bounceIn 1.2s ease-out 0.3s backwards;
-    }
-
-    footer a:hover {
-      color: #6D9F71 !important;
-      transform: translateX(5px);
-    }
-  </style>
+  <link href="../css/usuario.css" rel="stylesheet">
 </head>
 
 <body style="padding-left: 90px;">
   <!-- Sidebar fixa à esquerda -->
   <div class="sidebar-left">
     <div class="logo-container">
-      <img src="img/logorealista2.png" alt="logo">
+      <img src="../assets/img/logorealista2.png" alt="logo">
     </div>
 
 
    
     <a href="#animais_cadastrados" class="nav-btn gold" style="margin-top: auto; ">
-      <img src="img/gato.png" alt="gato">
+      <img src="../assets/img/gato.png" alt="gato">
       <span class="tooltip-text">Cadastrar Animal</span>
     </a>
      <a href="#animais-adocao" class="nav-btn green">
-      <img src="img/casa.png" alt="casa">
+      <img src="../assets/img/casa.png" alt="casa">
       <span class="tooltip-text">Animais para Adoção</span>
     </a>
     <a href="#minhas-solicitacoes" class="nav-btn green">
-      <img src="img/coracaoverde.png" alt="coração verde">
-      <span class="tooltip-text">MMinhas Solicitações</span>
+      <img src="../assets/img/coracaoverde.png" alt="coração verde">
+      <span class="tooltip-text">Minhas Solicitações</span>
     </a>
     
     <a href="#solicitacoes-recebidas" class="nav-btn gold">
@@ -434,7 +53,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       <span class="tooltip-text">Editar Perfil</span>
     </a>
 
-    <a href="logout.php" class="nav-btn gold" style="margin-bottom: auto;" onclick="return confirm('🚪 Você realmente deseja sair do sistema?')">
+    <a href="../auth/logout.php" class="nav-btn gold" style="margin-bottom: auto;" onclick="return confirm('🚪 Você realmente deseja sair do sistema?')">
       <span>🚪</span>
       <span class="tooltip-text">Sair</span>
     </a>
@@ -473,7 +92,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
 
     <div id="animais_cadastrados" class="card p-4" style="margin-top: 40px;">
       <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        <img src="img/gato.png" alt="gato"> Meus Animais
+        <img src="../assets/img/gato.png" alt="gato"> Meus Animais
       </h4>
 
       <div class="text-center mb-4">
@@ -498,7 +117,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       if ($result->num_rows > 0) {
         echo "<div class='row g-4'>";
         while ($animal = $result->fetch_assoc()) {
-          $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+          $foto = $animal['foto_animal'] ? '../assets/uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
           $status_class = $animal['status_animal'] == 'Adotado' ? 'bg-secondary' : 'bg-success';
 
           echo "
@@ -521,7 +140,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
             echo "
                   <div class='d-flex gap-2 mt-3'>
                     <a href='editarAnimal.php?id={$animal['id_animal']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>
-                    <a href='excluirAnimal.php?id={$animal['id_animal']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir este animal?\")'>🗑️ Excluir</a>
+                    <a href='../actions/excluirAnimal.php?id={$animal['id_animal']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir este animal?\")'>🗑️ Excluir</a>
                   </div>";
           } else {
             echo "
@@ -578,7 +197,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       if ($result_recebidas->num_rows > 0) {
         echo "<div class='row g-4'>";
         while ($solicitacao = $result_recebidas->fetch_assoc()) {
-          $foto = $solicitacao['foto_animal'] ? 'uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+          $foto = $solicitacao['foto_animal'] ? '../assets/uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
           
           // Define badge e cor baseado no status
           if($solicitacao['status_solicitacao'] == 'pendente'){
@@ -620,12 +239,12 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
           if($mostrar_botoes){
             echo "
                   <div class='d-flex gap-2 mt-3'>
-                    <a href='aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=aprovar' 
+                    <a href='../admin/aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=aprovar' 
                        class='btn btn-success btn-sm flex-fill' 
                        onclick='return confirm(\"✅ Aprovar adoção de {$solicitacao['nome_animal']} para {$solicitacao['nome_interessado']}?\")'>
                       ✅ Aprovar
                     </a>
-                    <a href='aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=recusar' 
+                    <a href='../admin/aprovarAdocao.php?id={$solicitacao['id_adocao']}&acao=recusar' 
                        class='btn btn-danger btn-sm flex-fill' 
                        onclick='return confirm(\"❌ Recusar esta solicitação?\")'>
                       ❌ Recusar
@@ -663,7 +282,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <!-- Seção de Animais Disponíveis para Adoção (de outros usuários) -->
     <div id="animais-adocao" class="card p-4 mt-4" style="scroll-margin-top: 100px;">
       <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        <img src="img/casa.png" alt="casa"> Animais Disponíveis para Adoção
+        <img src="../assets/img/casa.png" alt="casa"> Animais Disponíveis para Adoção
       </h4>
 
       <p class="text-muted text-center mb-4">Veja todos os pets cadastrados por outros usuários que estão procurando um lar!</p>
@@ -685,7 +304,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       if ($result_outros->num_rows > 0) {
         echo "<div class='row g-4'>";
         while ($animal = $result_outros->fetch_assoc()) {
-          $foto = $animal['foto_animal'] ? 'uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+          $foto = $animal['foto_animal'] ? '../assets/uploads/' . $animal['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
 
           echo "
             <div class='col-md-6 col-lg-4'>
@@ -728,7 +347,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <!-- Seção de Minhas Solicitações -->
     <div id="minhas-solicitacoes" class="card p-4 mt-4" style="scroll-margin-top: 20px;">
       <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        <img src="img/coracaoverde.png" alt="coração verde"> Minhas Solicitações de Adoção
+        <img src="../assets/img/coracaoverde.png" alt="coração verde"> Minhas Solicitações de Adoção
       </h4>
 
       <p class="text-muted text-center mb-4">Acompanhe o status das suas solicitações de adoção!</p>
@@ -750,7 +369,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       if ($result_solicitacoes->num_rows > 0) {
         echo "<div class='row g-4'>";
         while ($solicitacao = $result_solicitacoes->fetch_assoc()) {
-          $foto = $solicitacao['foto_animal'] ? 'uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+          $foto = $solicitacao['foto_animal'] ? '../assets/uploads/' . $solicitacao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
           
           // Define badge e cor baseado no status
           if($solicitacao['status_solicitacao'] == 'pendente'){
@@ -822,7 +441,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
         <!-- Coluna 1: Sobre -->
         <div class="col-md-4">
           <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px;">
-            <img src="img/patamenor.png" alt="pata menor">  AUcolher
+            <img src="../assets/img/patamenor.png" alt="pata menor">  AUcolher
           </h5>
           <p style="line-height: 1.8; color: rgba(255,255,255,0.85); font-size: 0.95rem;">
             Conectando corações a patinhas desde 2025. <br> Nossa missão é proporcionar um lar cheio de amor para cada animal que precisa de uma segunda chance.</p>

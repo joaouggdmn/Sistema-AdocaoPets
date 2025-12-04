@@ -1,0 +1,326 @@
+/* forms.css - Shared form styling across all pages */
+
+:root {
+  --pet-primary: #FF6B6B;
+  --pet-secondary: #4ECDC4;
+  --pet-accent: #FFE66D;
+  --pet-dark: #2d3748;
+  --pet-light: #f7f7f7;
+  --pet-green: #6D9F71;
+  --pet-gold: #d69040ff;
+  --pet-cream: #FFF3E2;
+}
+
+body {
+  font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* Backgrounds for different contexts */
+body.user-context {
+  background: linear-gradient(135deg, #A9CBB7 0%, #6D9F71 100%);
+}
+
+body.admin-context {
+  background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
+}
+
+/* Card styling */
+.card-pet {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 40px;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-pet:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Titles */
+h3.section-title {
+  color: var(--pet-gold);
+  font-weight: 800;
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+  font-size: 2.2rem;
+}
+
+h3.section-title.admin-title {
+  color: var(--pet-primary);
+}
+
+.small-note {
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Form labels */
+.form-label {
+  color: var(--pet-dark);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 3px rgba(109, 159, 113, 0.2);
+  border-color: #6D9F71;
+  outline: none;
+}
+
+.form-control:focus.admin-input,
+.form-select:focus.admin-input {
+  box-shadow: 0 0 0 3px rgba(214, 144, 64, 0.2);
+  border-color: #d69040ff;
+}
+
+.form-control::placeholder {
+  color: #cbd5e0;
+}
+
+textarea.form-control {
+  min-height: 120px;
+}
+
+/* Primary button - Gold/Orange */
+.btn-custom {
+  background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 16px rgba(214, 144, 64, 0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-custom::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-custom:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-custom:hover {
+  background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(214, 144, 64, 0.5);
+  letter-spacing: 1.5px;
+  color: white;
+}
+
+.btn-custom:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 5px 15px rgba(214, 144, 64, 0.4);
+}
+
+/* Secondary button - Green outline */
+.btn-voltar {
+  background: transparent;
+  border: 2.5px solid #6D9F71;
+  color: #6D9F71;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(109, 159, 113, 0.2);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-voltar:hover {
+  background: #119b4bff;
+  color: #FFF3E2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(109, 159, 113, 0.4);
+}
+
+/* Alternative secondary button */
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #6D9F71;
+  color: #6D9F71;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #6D9F71;
+  border-color: #6D9F71;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-secondary.admin-btn {
+  border-color: #FF6B6B;
+  color: #FF6B6B;
+}
+
+.btn-secondary.admin-btn:hover {
+  background: #FF6B6B;
+  color: white;
+}
+
+/* Danger button */
+.btn-danger {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.3);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Primary button - Admin red version */
+.btn-primary {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  border: none;
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 12px 30px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+  transform: translateY(-2px);
+}
+
+/* Alerts */
+.alert {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  color: white;
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #FFF3E2 0%, #f7e5c8 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  color: var(--pet-dark);
+  font-weight: 600;
+  border-left: 5px solid #d69040ff;
+}
+
+/* Info boxes */
+.info-box {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 82, 82, 0.1) 100%);
+  border-left: 4px solid #FF6B6B;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.info-box h5 {
+  color: #FF6B6B;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.info-box.gray {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 4px solid #FF6B6B;
+}
+
+.info-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+/* Badges */
+.badge {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.bg-danger {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%) !important;
+}
+
+/* Navbar */
+.navbar {
+  background: #f7c58dff;
+  box-shadow: 0 4px 12px rgba(247, 197, 141, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar.admin-navbar {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.navbar .navbar-brand {
+  color: #000000ff !important;
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.navbar.admin-navbar .navbar-brand {
+  color: #fff !important;
+}
+
+.navbar .navbar-brand:hover {
+  transform: translateY(-2px);
+}

@@ -384,13 +384,13 @@ session_start(); ?>
 
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid px-4">
-      <a style="margin-left: 30px;"><img src="img/logorealista.png" alt="logo aucolher"></a>
+      <a style="margin-left: 30px;"><img src="assets/img/logorealista.png" alt="logo aucolher"></a>
       <div class="d-flex gap-3" style="margin-right: 30px;">
         <a href="#login-section" class="btn-nav-login">
           Login
         </a>
-        <img src="img/pata.png" alt="pata">
-        <a href="cadastroUsuario.php" class="btn-nav-cadastro">
+        <img src="assets/img/pata.png" alt="pata">
+        <a href="public/cadastroUsuario.php" class="btn-nav-cadastro">
           Cadastre-se
         </a>
       </div>
@@ -412,7 +412,7 @@ session_start(); ?>
       <div class="row justify-content-center">
         <div class="col-lg-10">
           <h2 class="objetivo-title" style="font-family: 'Poppins', sans-serif; font-weight: 800; color: #d69040ff; font-size: 2.8rem; margin-bottom: 25px;">
-            <img src="img/logominimalista.png" alt="pata"> Nosso Objetivo
+            <img src="assets/img/logominimalista.png" alt="pata"> Nosso Objetivo
           </h2>
           <p style="font-size: 1.2rem; color: #4a5568; line-height: 1.8; margin-bottom: 20px;">
             O <strong style="color: #119b4bff;">Projeto AUcolher</strong> nasceu com a missão de conectar corações humanos a patinhas que precisam de um lar. Acreditamos que todo animal merece amor, cuidado e uma segunda chance.
@@ -432,7 +432,7 @@ session_start(); ?>
           <div class="hero-card mb-4">
             <h3 class="mb-4 section-title text-center" style="color: #d69040ff;">Bem-vindo de volta!</h3>
             <p class="text-center" style="font-size: 1.1rem; color: #4a5568; font-weight: 600; margin-bottom: 25px;">Faça login para encontrar seu AUmigão.</p>
-            <form action="validaLogin.php" method="POST">
+            <form action="auth/validaLogin.php" method="POST">
               <div class="mb-3">
                 <label class="form-label fw-bold">📧 E-mail</label>
                 <input type="email" name="email_usuario" class="form-control" placeholder="seu@email.com" required style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px;">
@@ -462,7 +462,7 @@ session_start(); ?>
 
             <div class="text-center">
               <p class="text-muted mb-2">Ainda não tem uma conta?</p>
-              <a href="cadastroUsuario.php" class="text-decoration-none fw-bold" style="color: #008638ff; font-size: 1.1rem;">
+              <a href="public/cadastroUsuario.php" class="text-decoration-none fw-bold" style="color: #008638ff; font-size: 1.1rem;">
                 🐾 Cadastre-se aqui
               </a>
             </div>
@@ -470,7 +470,7 @@ session_start(); ?>
         </div>
 
         <div class="col-12 col-md-6 col-lg-5 text-center">
-          <img src="img/dognoCarro.png" alt="Pet" style="border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+          <img src="assets/img/dognoCarro.png" alt="Pet" style="border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
         </div>
       </div>
     </main>
@@ -483,7 +483,7 @@ session_start(); ?>
         <!-- Coluna 1: Sobre -->
         <div class="col-md-4 mb-4">
           <h5 style="font-family: 'Fredoka', sans-serif; font-weight: 700; color: #d69040ff; margin-bottom: 20px; font-size: 1.3rem;">
-            <img src="img/patamenor.png" alt="logo AUcolher"> Projeto AUcolher
+            <img src="assets/img/patamenor.png" alt="logo AUcolher"> Projeto AUcolher
           </h5>
           <p style="color: #cbd5e0; line-height: 1.8; font-size: 0.95rem;">
             Conectando corações a patinhas desde 2025. Nossa missão é proporcionar um lar cheio de amor para cada animal que precisa de uma segunda chance.
@@ -497,7 +497,7 @@ session_start(); ?>
           </h5>
           <ul style="list-style: none; padding: 0; line-height: 2.2;">
             <li><a href="#login-section" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Login</a></li>
-            <li><a href="cadastroUsuario.php" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Cadastre-se</a></li>
+            <li><a href="public/cadastroUsuario.php" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Cadastre-se</a></li>
             <li><a href="#" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Como Adotar</a></li>
             <li><a href="#" style="color: #cbd5e0; text-decoration: none; transition: all 0.3s; display: inline-block;">→ Sobre Nós</a></li>
           </ul>

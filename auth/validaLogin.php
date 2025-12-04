@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 $email = $_POST['email_usuario'];
 $senha = md5($_POST['senha']);
@@ -17,14 +17,14 @@ if ($result->num_rows > 0) {
     $_SESSION['nivel_usuario'] = $user['nivel_usuario'];
 
     if ($user['nivel_usuario'] == 'admin') {
-        header("Location: painelAdmin.php");
+        header("Location: ../admin/painelAdmin.php");
     } else {
-        header("Location: painelUsuario.php");
+        header("Location: ../user/painelUsuario.php");
     }
     exit;
 } else {
     $_SESSION['erro'] = "❌ Usuário ou senha incorretos!";
-    header("Location: index.php#login-section");
+    header("Location: ../index.php#login-section");
     exit;
 }
 ?>

@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // Verifica se é admin
 if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
-    header("Location: login.php");
+    header("Location: ../index.php#login-section");
     exit;
 }
 
@@ -60,161 +60,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --pet-primary: #FF6B6B;
-      --pet-secondary: #d69040ff;
-      --pet-accent: #FFE66D;
-      --pet-dark: #2d3748;
-    }
-    
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
-      min-height: 100vh;
-      padding-bottom: 40px;
-    }
-    
-    .navbar {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .navbar .navbar-brand{ 
-      color:#fff !important; 
-      font-family: 'Fredoka', 'Nunito', sans-serif;
-      font-size: 1.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-    }
-    
-    .navbar .navbar-brand:hover {
-      transform: translateY(-2px);
-    }
-    
-    .card-pet{
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      padding: 40px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .card-pet:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-    }
-    
-    h3.section-title{ 
-      color: #d69040ff;
-      font-weight: 800;
-      font-family: 'Fredoka', 'Nunito', sans-serif;
-      font-size: 2.2rem;
-    }
-    
-    .form-label {
-      color: var(--pet-dark);
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
-    
-    .form-control, .form-select {
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 14px 18px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      background: white;
-    }
-    
-    .form-control:focus, .form-select:focus{ 
-      box-shadow: 0 0 0 3px rgba(214, 144, 64, 0.2);
-      border-color: #d69040ff;
-      outline: none;
-    }
-    
-    .btn-custom {
-      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 16px 32px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 16px rgba(214, 144, 64, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-custom::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-
-    .btn-custom:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-    
-    .btn-custom:hover{ 
-      background: linear-gradient(135deg, #c47f35 0%, #b87030 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(214, 144, 64, 0.4);
-    }
-    
-    .btn-secondary {
-      background: transparent;
-      border: 2px solid #FF6B6B;
-      color: #FF6B6B;
-      border-radius: 12px;
-      padding: 16px 32px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-secondary:hover {
-      background: #FF6B6B;
-      border-color: #FF6B6B;
-      color: white;
-      transform: translateY(-2px);
-    }
-
-    .alert {
-      border-radius: 15px;
-      border: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      font-weight: 600;
-    }
-    
-    .alert-danger {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      color: white;
-    }
-
-    .badge {
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-    }
-
-    .bg-danger {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%) !important;
-    }
-  </style>
+  <link href="../css/forms.css" rel="stylesheet">
 </head>
-<body>
+<body class="admin-context">
 
 <main class="container mt-5">
   <div class="row justify-content-center">

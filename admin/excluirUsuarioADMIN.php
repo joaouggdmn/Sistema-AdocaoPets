@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // Verifica se é admin
 if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
-    header("Location: login.php");
+    header("Location: ../index.php#login-section");
     exit;
 }
 
@@ -33,8 +33,8 @@ if(isset($_GET['confirmar']) && $_GET['confirmar'] == 'sim'){
     
     // Deleta todas as fotos dos animais
     while($animal = $result_animais->fetch_assoc()){
-        if($animal['foto_animal'] && file_exists('uploads/' . $animal['foto_animal'])){
-            unlink('uploads/' . $animal['foto_animal']);
+        if($animal['foto_animal'] && file_exists('../assets/uploads/' . $animal['foto_animal'])){
+            unlink('../assets/uploads/' . $animal['foto_animal']);
         }
     }
     
@@ -81,127 +81,18 @@ $count = $result_count->fetch_assoc();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+  <link href="../css/forms.css" rel="stylesheet">
   <style>
-    :root{
-      --pet-primary: #FF6B6B;
-      --pet-secondary: #4ECDC4;
-      --pet-dark: #2d3748;
-    }
-    
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #ffccc9ff 0%, #ff8839ff 100%);
-      min-height: 100vh;
-      padding-bottom: 40px;
-    }
-    
-    .navbar {
-      background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%);
-      box-shadow: 0 4px 12px rgba(214, 144, 64, 0.3);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .navbar .navbar-brand{ 
-      color:#fff !important; 
-      font-family: 'Fredoka', 'Nunito', sans-serif;
-      font-size: 1.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    }
-    
-    .card-pet{
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      padding: 40px;
+    .card-pet {
       border: 3px solid #FF6B6B;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
-    h3.section-title{ 
-      color: var(--pet-primary);
-      font-weight: 800;
-      font-family: 'Fredoka', 'Nunito', sans-serif;
-      font-size: 2.2rem;
-    }
-    
-    .btn-danger {
-      background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 16px 32px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 16px rgba(255, 107, 107, 0.3);
-    }
-    
-    .btn-danger:hover{ 
-      background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-    }
-    
-    .btn-secondary {
-      background: white;
-      border: 2px solid #6D9F71;
-      border-radius: 12px;
-      padding: 16px 32px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #6D9F71;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(109, 159, 113, 0.2);
-    }
-    
-    .btn-secondary:hover {
-      background: #6D9F71;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(109, 159, 113, 0.4);
-    }
-
-    .alert-warning {
-      background: linear-gradient(135deg, #FFF3E2 0%, #f7e5c8 100%);
-      border: none;
-      border-radius: 15px;
-      padding: 20px;
-      color: var(--pet-dark);
-      font-weight: 600;
-      border-left: 5px solid #d69040ff;
-    }
-
-    .info-box {
-      background: #f8f9fa;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 20px 0;
-      border-left: 4px solid #FF6B6B;
-    }
-
-    .info-box h5 {
-      color: var(--pet-primary);
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
-
-    .info-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #dee2e6;
-    }
-
-    .info-item:last-child {
-      border-bottom: none;
-    }
-
-    .badge {
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 0.9rem;
+    h3.section-title { 
+      color: #FF6B6B !important;
     }
   </style>
 </head>
-<body>
+<body class="admin-context">
 
 <main class="container mt-5">
   <div class="row justify-content-center">

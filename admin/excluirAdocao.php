@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // Verifica se é admin
 if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
-  header("Location: index.php");
+  header("Location: ../index.php");
   exit;
 }
 
