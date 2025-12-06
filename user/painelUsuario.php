@@ -25,25 +25,21 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <div class="logo-container">
       <img src="../assets/img/logorealista2.png" alt="logo">
     </div>
-
-
-   
     <a href="#animais_cadastrados" class="nav-btn gold" style="margin-top: auto; ">
       <img src="../assets/img/gato.png" alt="gato">
       <span class="tooltip-text">Cadastrar Animal</span>
     </a>
-     <a href="#animais-adocao" class="nav-btn green">
+    <a href="#solicitacoes-recebidas" class="nav-btn gold">
+      <img src="../assets/img/solicitacoes.png" alt="solicitações">
+      <span class="tooltip-text">Solicitações Recebidas</span>
+    </a>
+    <a href="#animais-adocao" class="nav-btn green">
       <img src="../assets/img/casa.png" alt="casa">
       <span class="tooltip-text">Animais para Adoção</span>
     </a>
     <a href="#minhas-solicitacoes" class="nav-btn green">
       <img src="../assets/img/coracaoverde.png" alt="coração verde">
       <span class="tooltip-text">Minhas Solicitações</span>
-    </a>
-    
-    <a href="#solicitacoes-recebidas" class="nav-btn gold">
-      <span>📬</span>
-      <span class="tooltip-text">Solicitações Recebidas</span>
     </a>
 
     <div class="divider"></div>
@@ -169,7 +165,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
     <!-- Seção de Solicitações Recebidas (para quem cadastrou o pet) -->
     <div id="solicitacoes-recebidas" class="card p-4 mt-4" style="scroll-margin-top: 20px;">
       <h4 style="color: var(--pet-dark); font-weight: 700; margin-bottom: 20px;">
-        📬 Solicitações Recebidas
+        <img src="../assets/img/solicitacoes.png" alt="solicitações"> Solicitações Recebidas
       </h4>
 
       <p class="text-muted text-center mb-4">Solicitações de adoção dos seus pets!</p>
@@ -271,7 +267,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       } else {
         echo "
         <div class='alert text-center' style='background: linear-gradient(135deg, #6D9F71 0%, #5a8a5e 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
-          <h5 style='color: white; font-weight: 700;'>📬 Você ainda não recebeu nenhuma solicitação!</h5>
+          <h5 style='color: white; font-weight: 700;'> Você ainda não recebeu nenhuma solicitação!</h5>
           <p class='mb-0'>Quando alguém se interessar pelos seus pets, as solicitações aparecerão aqui!</p>
         </div>";
       }
@@ -425,7 +421,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'usuario') {
       } else {
         echo "
         <div class='alert text-center' style='background: linear-gradient(135deg, #d69040ff 0%, #c47f35 100%); color: white; border: none; border-radius: 15px; padding: 30px;'>
-          <h5 style='color: white; font-weight: 700;'>📋 Você ainda não fez nenhuma solicitação de adoção!</h5>
+          <h5 style='color: white; font-weight: 700;'> Você ainda não fez nenhuma solicitação de adoção!</h5>
           <p class='mb-0'>Navegue pelos pets disponíveis e solicite a adoção do seu favorito!</p>
         </div>";
       }
