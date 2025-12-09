@@ -99,7 +99,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
       <div class="card-pet">
-        <h3 class="mb-3 text-center section-title">✏️ Editar Dados do Animal</h3>
+        <h3 class="mb-3 text-center section-title"> Editar Dados do Animal</h3>
         <p class="text-center text-muted mb-4">Atualize as informações de <strong><?= $animal['nome_animal'] ?></strong></p>
 
         <?php if(isset($_SESSION['erro'])): ?>

@@ -25,7 +25,7 @@ if (!isset($_SESSION['logado'])) {
     <div class="col-12 col-md-10 col-lg-8">
       <div class="card-pet">
         <h3 class="mb-3 text-center section-title">Cadastrar Animal para Adoção</h3>
-        <p class="text-center small-note">Preencha os dados do pet que você quer disponibilizar para adoção. 🐕🐱</p>
+        <p class="text-center small-note">Preencha os dados do pet que você quer disponibilizar para adoção. </p>
 
         <?php
         // Exibe mensagem de erro se houver
@@ -74,13 +74,12 @@ if (!isset($_SESSION['logado'])) {
             <input type="text" name="raca" class="form-control" placeholder="Ex: Vira-lata, Persa, SRD..." required>
           </div>
 
-          <div class="col-md-4">
-            <label class="form-label">Idade</label>
+          <div class="col-md-6">
+            <label class="form-label">Idade (aproximada)</label>
             <input type="text" name="idade" class="form-control" placeholder="Ex: 2 anos, 6 meses..." required>
           </div>
 
-
-          <div class="col-md-4">
+          <div class="col-md-6">
             <label class="form-label">Sexo</label>
             <select name="sexo" class="form-select" required>
               <option value="">Selecione...</option>
