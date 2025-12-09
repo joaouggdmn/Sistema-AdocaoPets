@@ -30,12 +30,12 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
       <span>👥</span>
       <span class="tooltip-text">Gerenciar Usuários</span>
     </a>
-    
+
     <a href="#animais-adocao" class="nav-btn gold">
       <span>🐾</span>
       <span class="tooltip-text">Gerenciar Animais</span>
     </a>
-    
+
     <a href="#adocoes" class="nav-btn gold">
       <span>💚</span>
       <span class="tooltip-text">Gerenciar Adoções</span>
@@ -66,7 +66,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
           <div class="icon-container">
             <img src="../assets/img/adm.png" alt="">
           </div>
-          
+
           <!-- Texto de boas-vindas -->
           <div style="flex: 1;">
             <h2 class="welcome-title">
@@ -74,14 +74,14 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
             </h2>
             <div class="badges">
               <span class="badge-access">
-                 Administrador do Sistema
+                Administrador do Sistema
               </span>
             </div>
           </div>
         </div>
-        
+
         <div class="divider-line"></div>
-        
+
         <!-- Informações rápidas -->
         <div class="quick-actions">
           <div class="action-item">
@@ -121,14 +121,14 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
     ?>
 
     <div id="usuarios" class="card p-4 section-card">
-      <h4 class="mb-4 section-title">📋 Gerenciar Usuários</h4>
+      <h4 class="mb-4 section-title">👥 Gerenciar Usuários</h4>
       <table class="table table-striped table-bordered align-middle mb-0">
         <thead>
           <tr>
             <th scope="col" style="color:#c47f35; background-color:#f9f6f1;">ID</th>
-            <th scope="col"style="color:#c47f35; background-color:#f9f6f1;">Nome</th>
-            <th scope="col"style="color:#c47f35; background-color:#f9f6f1;">Email</th>
-            <th scope="col"style="color:#c47f35; background-color:#f9f6f1;">Ações</th>
+            <th scope="col" style="color:#c47f35; background-color:#f9f6f1;">Nome</th>
+            <th scope="col" style="color:#c47f35; background-color:#f9f6f1;">Email</th>
+            <th scope="col" style="color:#c47f35; background-color:#f9f6f1;">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -160,7 +160,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
 
     <div id="animais-adocao" class="card p-4 mt-4 animais-section" style="margin-bottom: 40px;">
       <h4 class="section-title">
-        📋 Gerenciar Animais
+        🐾 Gerenciar Animais
       </h4>
 
       <hr class="my-4">
@@ -253,13 +253,13 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
         echo "<div class='row g-4'>";
         while ($adocao = $result_adocoes->fetch_assoc()) {
           $foto = $adocao['foto_animal'] ? '../assets/uploads/' . $adocao['foto_animal'] : 'https://via.placeholder.com/300x200?text=Sem+Foto';
-          
+
           // Define badge e estilo baseado no status
-          if($adocao['status_solicitacao'] == 'pendente'){
+          if ($adocao['status_solicitacao'] == 'pendente') {
             $badge_class = 'bg-warning text-dark';
             $badge_text = '⏳ Pendente';
             $card_border = 'border-warning';
-          } elseif($adocao['status_solicitacao'] == 'aprovada'){
+          } elseif ($adocao['status_solicitacao'] == 'aprovada') {
             $badge_class = 'bg-success';
             $badge_text = '✅ Aprovada';
             $card_border = 'border-success';
@@ -268,9 +268,9 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
             $badge_text = '❌ Recusada';
             $card_border = 'border-danger';
           }
-          
+
           $data_solicitacao = date('d/m/Y H:i', strtotime($adocao['data_solicitacao']));
-          
+
           echo "<div class='col-md-6 col-lg-4'>";
           echo "  <div class='card h-100 {$card_border}' style='border-radius: 15px; overflow: hidden; border-width: 3px;'>";
           echo "    <img src='{$foto}' class='card-img-top' alt='{$adocao['nome_animal']}' style='height: 180px; object-fit: cover;'>";
@@ -285,23 +285,23 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
           echo "          <strong>🏠 Doador:</strong> {$adocao['nome_doador']}<br>";
           echo "          <strong>💕 Adotante:</strong> {$adocao['nome_adotante']}<br>";
           echo "          <strong>📅 Solicitado:</strong> {$data_solicitacao}<br>";
-          
-          if($adocao['status_solicitacao'] == 'aprovada' && $adocao['data_adocao']){
+
+          if ($adocao['status_solicitacao'] == 'aprovada' && $adocao['data_adocao']) {
             $data_aprovacao = date('d/m/Y', strtotime($adocao['data_adocao']));
             echo "          <strong>✅ Aprovado:</strong> {$data_aprovacao}<br>";
-          } elseif($adocao['status_solicitacao'] == 'recusada' && $adocao['data_resposta']){
+          } elseif ($adocao['status_solicitacao'] == 'recusada' && $adocao['data_resposta']) {
             $data_recusa = date('d/m/Y', strtotime($adocao['data_resposta']));
             echo "          <strong>❌ Recusado:</strong> {$data_recusa}<br>";
           }
-          
+
           echo "        </small>";
           echo "      </p>";
-          
+
           // Badge de ID da adoção
           echo "      <div class='mt-2 mb-3'>";
           echo "        <span class='badge bg-secondary' style='font-size: 0.75rem;'>ID: {$adocao['id_adocao']}</span>";
           echo "      </div>";
-          
+
           echo "      <div class='d-flex gap-2 mt-3'>";
           echo "        <a href='editarAdocao.php?id={$adocao['id_adocao']}' class='btn btn-warning btn-sm flex-fill'>✏️ Editar</a>";
           echo "        <a href='excluirAdocao.php?id={$adocao['id_adocao']}' class='btn btn-danger btn-sm flex-fill' onclick='return confirm(\"Tem certeza que deseja excluir esta adoção?\")'>🗑️ Excluir</a>";
@@ -363,7 +363,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
 
       <div class="text-center">
         <p style="color: #a0aec0; font-size: 0.9rem; margin: 0; font-family: 'Nunito', sans-serif;">
-          © 2025 <strong style="color: #FF6B6B;">Projeto AUcolher</strong> • Painel Administrativo 
+          © 2025 <strong style="color: #FF6B6B;">Projeto AUcolher</strong> • Painel Administrativo
         </p>
       </div>
     </div>
