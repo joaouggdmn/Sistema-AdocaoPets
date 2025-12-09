@@ -59,15 +59,10 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
   <div class="container admin-container">
     <!-- Card de Boas-vindas do Admin -->
     <div class="card p-5 mb-4 welcome-card">
-      <!-- Decoração de fundo -->
       <div class="decoration-circle-1"></div>
       <div class="decoration-circle-2"></div>
-
-      
-      <!-- Conteúdo -->
       <div class="content">
         <div class="welcome-header">
-          <!-- Ícone Admin -->
           <div class="icon-container">
             <img src="../assets/img/adm.png" alt="">
           </div>
@@ -85,7 +80,6 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
           </div>
         </div>
         
-        <!-- Linha divisória decorativa -->
         <div class="divider-line"></div>
         
         <!-- Informações rápidas -->
@@ -100,7 +94,7 @@ if (!isset($_SESSION['logado']) || $_SESSION['nivel_usuario'] != 'admin') {
           </div>
           <div class="action-item">
             <div class="action-icon">📊</div>
-            <div class="action-text">Painel Completo</div>
+            <div class="action-text">Gerenciar Adoções</div>
           </div>
         </div>
       </div>
